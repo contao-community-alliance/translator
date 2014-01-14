@@ -14,9 +14,9 @@
 
 namespace ContaoCommunityAlliance\Translator\Contao;
 
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use ContaoCommunityAlliance\Translator\AbstractTranslator;
-use ContaoEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
