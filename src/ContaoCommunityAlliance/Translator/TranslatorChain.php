@@ -157,7 +157,7 @@ class TranslatorChain
 		$original = $string;
 
 		for ($translator = reset($this->translators);
-			$this->keepGoing || $string == $original;
+			$translator && ($this->keepGoing || $string == $original);
 			$translator = next($this->translators))
 		{
 			$string = $translator->translatePluralized($string, $number, $domain, $parameters, $locale);
