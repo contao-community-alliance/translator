@@ -28,7 +28,7 @@
 	"require": {
 		"php":">=5.3",
 		"contao-community-alliance/event-dispatcher": "~1.0",
-		"contao-community-alliance/events-contao-bindings": "~3.2@dev",
+		"contao-community-alliance/events-contao-bindings": "*@dev",
 		"contao-community-alliance/composer-installer": "*"
 	},
 	"require-dev": {
