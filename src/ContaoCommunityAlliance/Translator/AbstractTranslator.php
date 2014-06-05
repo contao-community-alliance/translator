@@ -85,6 +85,47 @@ abstract class AbstractTranslator implements TranslatorInterface
 	}
 
 	/**
+	 * Extract a single choice from the array of choices and sanitize its values.
+	 *
+	 * @param array $choices The choice array.
+	 *
+	 * @param int   $i       The index to extract.
+	 *
+	 * @param int   $count   Amount of all choices in the array (passed to prevent calling count() multiple times).
+	 *
+	 * @return object
+	 */
+	protected function fetchChoice($choices, $i, $count)
+	{
+		$choice = $choices[$i];
+
+		// Set from number, if not set (notation ":X").
+		if (!$choice->range->from)
+		{
+			if ($i > 0)
+			{
+				$choice->range->from = ($choices[($i - 1)]->range->to + 1);
+			}
+			else {
+				$choice->range->from = ( - PHP_INT_MAX);
+			}
+		}
+		// Set to number, if not set (notation "X" or "X:").
+		if (!$choice->range->to)
+		{
+			if ($i < ($count - 1))
+			{
+				$choice->range->to = ($choices[($i + 1)]->range->from - 1);
+			}
+			else {
+				$choice->range->to = PHP_INT_MAX;
+			}
+		}
+
+		return $choice;
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function translatePluralized($string, $number, $domain = null, array $parameters = array(), $locale = null)
@@ -106,30 +147,7 @@ abstract class AbstractTranslator implements TranslatorInterface
 			$count = count($array);
 			for ($i = 0; $i < $count; $i++)
 			{
-				$choice = $array[$i];
-
-				// Set from number, if not set (notation ":X").
-				if (!$choice->range->from)
-				{
-					if ($i > 0)
-					{
-						$choice->range->from = ($array[($i - 1)]->range->to + 1);
-					}
-					else {
-						$choice->range->from = ( - PHP_INT_MAX);
-					}
-				}
-				// Set to number, if not set (notation "X" or "X:").
-				if (!$choice->range->to)
-				{
-					if ($i < ($count - 1))
-					{
-						$choice->range->to = ($array[($i + 1)]->range->from - 1);
-					}
-					else {
-						$choice->range->to = PHP_INT_MAX;
-					}
-				}
+				$choice = $this->fetchChoice($array, $i, $count);
 
 				if ($number >= $choice->range->from && $number <= $choice->range->to)
 				{

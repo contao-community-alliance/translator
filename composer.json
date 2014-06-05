@@ -2,7 +2,6 @@
 	"name":"contao-community-alliance/translator",
 	"description":"Multipurpose translation manager and interface",
 	"keywords":["contao", "translation"],
-	"type":"contao-module",
 	"homepage":"http://c-c-a.org/",
 	"license":"LGPL-3.0+",
 	"authors":[
@@ -28,8 +27,7 @@
 	"require": {
 		"php":">=5.3",
 		"contao-community-alliance/event-dispatcher": "~1.0",
-		"contao-community-alliance/events-contao-bindings": "~3.2@dev",
-		"contao-community-alliance/composer-installer": "*"
+		"contao-community-alliance/events-contao-bindings": ">=2.0,<4-dev"
 	},
 	"require-dev": {
 		"metamodels/php-coding-standard":"dev-master",
@@ -42,5 +40,6 @@
 		"branch-alias": {
 			"dev-master": "1.0.x-dev"
 		}
-	}
+	},
+	"minimum-stability": "dev"
 }
