@@ -27,7 +27,7 @@
 	"require": {
 		"php":">=5.3",
 		"contao-community-alliance/event-dispatcher": "~1.0",
-		"contao-community-alliance/events-contao-bindings": "*@dev",
+		"contao-community-alliance/events-contao-bindings": ">=2.0,<4-dev"
 	},
 	"require-dev": {
 		"metamodels/php-coding-standard":"dev-master",
