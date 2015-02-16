@@ -43,6 +43,8 @@ class StaticTranslator extends AbstractTranslator
      * @return int
      *
      * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected static function sortPluralizedCompare($a, $b)
     {
