@@ -1,14 +1,11 @@
-<?xml version="1.0"?>
-<project name="Contao Community Alliance translator" default="test">
-	<target name="phpunit">
-		<exec dir="${basedir}" executable="vendor/bin/phpunit" failonerror="true" />
-	</target>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This project is using the PHP code quality project (PHPCQ).
 
-	<target name="phpcs">
-		<exec dir="${basedir}" executable="vendor/bin/phpcs" failonerror="true">
-			<arg line="--standard=${basedir}/vendor/metamodels/php-coding-standard/MetaModels/ruleset.xml ${basedir}/src"/>
-		</exec>
-	</target>
+ For documentation visit:
+   https://github.com/phpcq/phpcq
 
-	<target name="test" depends="phpunit,phpcs"/>
+-->
+<project name="contao-community-alliance/translator" default="build">
+    <import file="vendor/phpcq/phpcq/phpcq.main.xml" />
 </project>
