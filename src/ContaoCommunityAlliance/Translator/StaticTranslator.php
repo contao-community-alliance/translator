@@ -41,6 +41,8 @@ class StaticTranslator extends AbstractTranslator
      * @param string $b The second value.
      *
      * @return int
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     protected static function sortPluralizedCompare($a, $b)
     {
