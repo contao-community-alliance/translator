@@ -152,7 +152,7 @@ class StaticTranslator extends AbstractTranslator
     protected function determineKey($min, $max)
     {
         $minGiven = ($min !== null);
-        $maxGiven = ($min !== null);
+        $maxGiven = ($max !== null);
 
         if (!$minGiven && !$maxGiven) {
             throw new InvalidArgumentException('You must specify a valid value for min, max or both.');
