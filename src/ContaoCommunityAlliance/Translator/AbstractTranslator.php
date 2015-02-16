@@ -19,157 +19,137 @@ namespace ContaoCommunityAlliance\Translator;
  */
 abstract class AbstractTranslator implements TranslatorInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	abstract protected function getValue($string, $domain, $locale);
+    /**
+     * {@inheritdoc}
+     */
+    public function translate($string, $domain = null, array $parameters = array(), $locale = null)
+    {
+        $newString = $this->getValue($string, $domain, $locale);
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function translate($string, $domain = null, array $parameters = array(), $locale = null)
-	{
-		$newString = $this->getValue($string, $domain, $locale);
+        if ($newString == $string) {
+            return $string;
+        }
 
-		if ($newString == $string)
-		{
-			return $string;
-		}
+        if (count($parameters)) {
+            $newString = vsprintf($newString, $parameters);
+        }
 
-		if (count($parameters))
-		{
-			$newString = vsprintf($newString, $parameters);
-		}
+        return $newString;
+    }
 
-		return $newString;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    abstract protected function getValue($string, $domain, $locale);
 
-	/**
-	 * Build a choice lookup list from the passed language choice array.
-	 *
-	 * The input array is something like:
-	 * array(
-	 *   '1'   => 'an apple',
-	 *   '2:5' => 'a few apples',
-	 *   '12'  => 'a dozen of apples',
-	 *   '13:' => 'a pile of apples'
-	 * )
-	 *
-	 * @param array $choices The language strings.
-	 *
-	 * @return array
-	 */
-	protected function buildChoiceLookupList($choices)
-	{
-		$array = array();
+    /**
+     * {@inheritdoc}
+     */
+    public function translatePluralized($string, $number, $domain = null, array $parameters = array(), $locale = null)
+    {
+        $choices = $this->getValue($string, $domain, $locale);
 
-		foreach ($choices as $range => $choice)
-		{
-			$range = explode(':', $range);
+        if (!is_array($choices)) {
+            return $string;
+        }
 
-			if (count($range) < 2)
-			{
-				$range[] = '';
-			}
+        if (isset($choices[$number])) {
+            $newString = $choices[$number];
+        } else {
+            $array = $this->buildChoiceLookupList($choices);
 
-			$array[] = (object)array(
-				'range' => (object)array(
-						'from' => $range[0],
-						'to'   => $range[1],
-					),
-				'string' => $choice
-			);
-		}
+            $count = count($array);
+            for ($i = 0; $i < $count; $i++) {
+                $choice = $this->fetchChoice($array, $i, $count);
 
-		return $array;
-	}
+                if ($number >= $choice->range->from && $number <= $choice->range->to) {
+                    $newString = $choice->string;
+                    break;
+                }
+            }
+        }
 
-	/**
-	 * Extract a single choice from the array of choices and sanitize its values.
-	 *
-	 * @param array $choices The choice array.
-	 *
-	 * @param int   $i       The index to extract.
-	 *
-	 * @param int   $count   Amount of all choices in the array (passed to prevent calling count() multiple times).
-	 *
-	 * @return object
-	 */
-	protected function fetchChoice($choices, $i, $count)
-	{
-		$choice = $choices[$i];
+        if (!isset($newString)) {
+            return $string;
+        }
 
-		// Set from number, if not set (notation ":X").
-		if (!$choice->range->from)
-		{
-			if ($i > 0)
-			{
-				$choice->range->from = ($choices[($i - 1)]->range->to + 1);
-			}
-			else {
-				$choice->range->from = ( - PHP_INT_MAX);
-			}
-		}
-		// Set to number, if not set (notation "X" or "X:").
-		if (!$choice->range->to)
-		{
-			if ($i < ($count - 1))
-			{
-				$choice->range->to = ($choices[($i + 1)]->range->from - 1);
-			}
-			else {
-				$choice->range->to = PHP_INT_MAX;
-			}
-		}
+        if (count($parameters)) {
+            $newString = vsprintf($newString, $parameters);
+        }
 
-		return $choice;
-	}
+        return $newString;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function translatePluralized($string, $number, $domain = null, array $parameters = array(), $locale = null)
-	{
-		$choices = $this->getValue($string, $domain, $locale);
+    /**
+     * Build a choice lookup list from the passed language choice array.
+     *
+     * The input array is something like:
+     * array(
+     *   '1'   => 'an apple',
+     *   '2:5' => 'a few apples',
+     *   '12'  => 'a dozen of apples',
+     *   '13:' => 'a pile of apples'
+     * )
+     *
+     * @param array $choices The language strings.
+     *
+     * @return array
+     */
+    protected function buildChoiceLookupList($choices)
+    {
+        $array = array();
 
-		if (!is_array($choices))
-		{
-			return $string;
-		}
+        foreach ($choices as $range => $choice) {
+            $range = explode(':', $range);
 
-		if (isset($choices[$number]))
-		{
-			$newString = $choices[$number];
-		}
-		else {
-			$array = $this->buildChoiceLookupList($choices);
+            if (count($range) < 2) {
+                $range[] = '';
+            }
 
-			$count = count($array);
-			for ($i = 0; $i < $count; $i++)
-			{
-				$choice = $this->fetchChoice($array, $i, $count);
+            $array[] = (object) array(
+                'range' => (object) array(
+                    'from' => $range[0],
+                    'to' => $range[1],
+                ),
+                'string' => $choice
+            );
+        }
 
-				if ($number >= $choice->range->from && $number <= $choice->range->to)
-				{
-					$newString = $choice->string;
-					break;
-				}
-			}
-		}
+        return $array;
+    }
 
-		if (!isset($newString))
-		{
-			return $string;
-		}
+    /**
+     * Extract a single choice from the array of choices and sanitize its values.
+     *
+     * @param array $choices The choice array.
+     *
+     * @param int   $index   The index to extract.
+     *
+     * @param int   $count   Amount of all choices in the array (passed to prevent calling count() multiple times).
+     *
+     * @return object
+     */
+    protected function fetchChoice($choices, $index, $count)
+    {
+        $choice = $choices[$index];
 
-		if (count($parameters))
-		{
-			$newString = vsprintf($newString, $parameters);
-		}
+        // Set from number, if not set (notation ":X").
+        if (!$choice->range->from) {
+            if ($index > 0) {
+                $choice->range->from = ($choices[($index - 1)]->range->to + 1);
+            } else {
+                $choice->range->from = (-PHP_INT_MAX);
+            }
+        }
+        // Set to number, if not set (notation "X" or "X:").
+        if (!$choice->range->to) {
+            if ($index < ($count - 1)) {
+                $choice->range->to = ($choices[($index + 1)]->range->from - 1);
+            } else {
+                $choice->range->to = PHP_INT_MAX;
+            }
+        }
 
-		return $newString;
-	}
+        return $choice;
+    }
 }
-
-
-

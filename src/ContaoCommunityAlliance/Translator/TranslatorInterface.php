@@ -19,35 +19,35 @@ namespace ContaoCommunityAlliance\Translator;
  */
 interface TranslatorInterface
 {
-	/**
-	 * Translate a string in a specific domain.
-	 *
-	 * @param string $string     The translation string.
-	 *
-	 * @param string $domain     The translation domain.
-	 *
-	 * @param array  $parameters Parameters used in translation.
-	 *
-	 * @param string $locale     The translation locale.
-	 *
-	 * @return string
-	 */
-	public function translate($string, $domain = null, array $parameters = array(), $locale = null);
+    /**
+     * Translate a string in a specific domain.
+     *
+     * @param string $string     The translation string.
+     *
+     * @param string $domain     The translation domain.
+     *
+     * @param array  $parameters Parameters used in translation.
+     *
+     * @param string $locale     The translation locale.
+     *
+     * @return string
+     */
+    public function translate($string, $domain = null, array $parameters = array(), $locale = null);
 
-	/**
-	 * Translate a pluralized string in a specific domain.
-	 *
-	 * @param string $string     The translation string.
-	 *
-	 * @param int    $number     The pluralization number.
-	 *
-	 * @param string $domain     The translation domain.
-	 *
-	 * @param array  $parameters Parameters used in translation.
-	 *
-	 * @param string $locale     The translation locale.
-	 *
-	 * @return string
-	 */
-	public function translatePluralized($string, $number, $domain = null, array $parameters = array(), $locale = null);
+    /**
+     * Translate a pluralized string in a specific domain.
+     *
+     * @param string $string     The translation string.
+     *
+     * @param int    $number     The pluralization number.
+     *
+     * @param string $domain     The translation domain.
+     *
+     * @param array  $parameters Parameters used in translation.
+     *
+     * @param string $locale     The translation locale.
+     *
+     * @return string
+     */
+    public function translatePluralized($string, $number, $domain = null, array $parameters = array(), $locale = null);
 }
