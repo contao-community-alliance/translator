@@ -149,21 +149,28 @@ class StaticTranslator extends AbstractTranslator
      */
     protected function determineKey($min, $max)
     {
-        // Exact number.
-        if (($min !== null) && ($max !== null) && ($min === $max)) {
-            return $min;
-        } elseif (($min !== null) && ($max !== null) && ($min === $max)) {
-            // Full defined range.
-            return $min . ':' . $max;
-        } elseif (($min !== null) && ($max === null)) {
+        $minGiven = ($min !== null);
+        $maxGiven = ($min !== null);
+
+        if (!$minGiven && !$maxGiven) {
+            throw new InvalidArgumentException('You must specify a valid value for min, max or both.');
+        }
+
+        if ($minGiven && !$maxGiven) {
             // Open end range.
             return $min . ':';
-        } elseif (($min === null) && ($max !== null)) {
+        } elseif (!$minGiven && $maxGiven) {
             // Open start range.
             return ':' . $max;
         }
 
-        throw new InvalidArgumentException('You must specify a valid value for min, max or both.');
+        if ($min === $max) {
+            // Exact number.
+            return $min;
+        }
+
+        // Full defined range.
+        return $min . ':' . $max;
     }
 
     /**
