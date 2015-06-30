@@ -5,6 +5,7 @@
     "contao",
     "translation"
   ],
+  "type":"contao-module",
   "homepage": "http://c-c-a.org/",
   "license": "LGPL-3.0+",
   "authors": [
@@ -41,6 +42,11 @@
   "extra": {
     "branch-alias": {
       "dev-master": "1.0.x-dev"
+    },
+    "contao": {
+      "sources": {
+        "contao": "system/modules/translator"
+      }
     }
   },
   "minimum-stability": "dev"
