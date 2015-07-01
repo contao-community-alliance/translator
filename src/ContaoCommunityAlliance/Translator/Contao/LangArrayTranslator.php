@@ -26,80 +26,77 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class LangArrayTranslator extends AbstractTranslator
 {
-	/**
-	 * The event dispatcher to use.
-	 *
-	 * @var EventDispatcherInterface
-	 */
-	protected $eventDispatcher;
+    /**
+     * The event dispatcher to use.
+     *
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
-	/**
-	 * Create a new instance.
-	 *
-	 * @param EventDispatcherInterface $eventDispatcher The event dispatcher to use.
-	 */
-	public function __construct($eventDispatcher)
-	{
-		$this->eventDispatcher = $eventDispatcher;
-	}
+    /**
+     * Create a new instance.
+     *
+     * @param EventDispatcherInterface $eventDispatcher The event dispatcher to use.
+     */
+    public function __construct($eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
-	/**
-	 * Load the language strings for the given domain in the passed locale.
-	 *
-	 * @param string $domain The domain to load.
-	 *
-	 * @param string $locale The locale to use.
-	 *
-	 * @return void
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function loadDomain($domain, $locale)
-	{
-		$event = new LoadLanguageFileEvent($domain, $locale);
+    /**
+     * {@inheritDoc}
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
+     * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     */
+    protected function getValue($string, $domain, $locale)
+    {
+        if (!$domain) {
+            $domain = 'default';
+        }
 
-		$this->eventDispatcher->dispatch(ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE, $event);
-	}
+        $this->loadDomain($domain, $locale);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected function getValue($string, $domain, $locale)
-	{
-		if (!$domain)
-		{
-			$domain = 'default';
-		}
+        // We have to treat 'languages', 'default', 'modules' etc. domains differently.
+        if (!(isset($GLOBALS['TL_LANG'][$domain]) && is_array($GLOBALS['TL_LANG'][$domain]))
+            && (substr($domain, 0, 2) != 'tl_')
+        ) {
+            $lang = $GLOBALS['TL_LANG'];
+        } else {
+            if (!is_array($GLOBALS['TL_LANG'][$domain])) {
+                return $string;
+            }
+            $lang = $GLOBALS['TL_LANG'][$domain];
+        }
 
-		$this->loadDomain($domain, $locale);
+        $chunks = explode('.', $string);
 
-		// We have to treat 'languages', 'default', 'modules' etc. domains differently.
-		if (!(isset($GLOBALS['TL_LANG'][$domain]) && is_array($GLOBALS['TL_LANG'][$domain]))
-			&& (substr($domain, 0, 2) != 'tl_'))
-		{
-			$lang = $GLOBALS['TL_LANG'];
-		}
-		else
-		{
-			if (!is_array($GLOBALS['TL_LANG'][$domain]))
-			{
-				return $string;
-			}
-			$lang = $GLOBALS['TL_LANG'][$domain];
-		}
+        while (($chunk = array_shift($chunks)) !== null) {
+            if (!array_key_exists($chunk, $lang)) {
+                return $string;
+            }
 
-		$chunks = explode('.', $string);
+            $lang = $lang[$chunk];
+        }
 
-		while (($chunk = array_shift($chunks)) !== null)
-		{
-			if (!array_key_exists($chunk, $lang))
-			{
-				return $string;
-			}
+        return $lang;
+    }
 
-			$lang = $lang[$chunk];
-		}
+    /**
+     * Load the language strings for the given domain in the passed locale.
+     *
+     * @param string $domain The domain to load.
+     *
+     * @param string $locale The locale to use.
+     *
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    protected function loadDomain($domain, $locale)
+    {
+        $event = new LoadLanguageFileEvent($domain, $locale);
 
-		return $lang;
-	}
+        $this->eventDispatcher->dispatch(ContaoEvents::SYSTEM_LOAD_LANGUAGE_FILE, $event);
+    }
 }

@@ -1,0 +1,7 @@
+copy-left:
+  "Tristan Lins <tristan.lins@bit3.de>":
+    - LangArrayTranslator.php
+    - AbstractTranslator.php
+    - StaticTranslator.php
+    - TranslatorChain.php
+    - TranslatorInterface.php

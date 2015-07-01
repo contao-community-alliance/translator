@@ -18,14 +18,13 @@ use ContaoCommunityAlliance\Translator\TranslatorChain;
 /**
  * Test case that test the StaticTranslator class.
  */
-class TranslatorChainTest
-	extends TestCase
+class TranslatorChainTest extends TestCase
 {
 
-	public function testChain()
-	{
-		$translator = new TranslatorChain();
+    public function testChain()
+    {
+        $translator = new TranslatorChain();
 
-		$this->markTestIncomplete();
-	}
+        $this->markTestIncomplete();
+    }
 }
