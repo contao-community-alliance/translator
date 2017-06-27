@@ -52,7 +52,7 @@
     },
     "contao": {
       "sources": {
-        "contao": "system/modules/translator"
+        "src/Resources/contao": "system/modules/translator"
       }
     }
   },
