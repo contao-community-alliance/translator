@@ -37,8 +37,8 @@
     "phpcq/all-tasks": "~1.1"
   },
   "autoload": {
-    "psr-0": {
-      "ContaoCommunityAlliance\\Translator": "src"
+    "psr-4": {
+      "ContaoCommunityAlliance\\Translator\\": "src/"
     }
   },
   "extra": {
