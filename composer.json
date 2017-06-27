@@ -54,7 +54,8 @@
       "sources": {
         "src/Resources/contao": "system/modules/translator"
       }
-    }
+    },
+    "contao-manager-plugin": "ContaoCommunityAlliance\\Translator\\ContaoManager\\Plugin"
   },
   "minimum-stability": "dev"
 }
