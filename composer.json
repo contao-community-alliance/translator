@@ -28,11 +28,10 @@
     "source": "https://github.com/contao-community-alliance/translator"
   },
   "require": {
-    "php": ">=5.3",
-    "contao/core": ">=3.2,<3.6-dev",
-    "contao-community-alliance/composer-plugin": "~2.0",
-    "contao-community-alliance/event-dispatcher": "~1.0",
-    "contao-community-alliance/events-contao-bindings": "~3.0"
+    "php": ">=5.4",
+    "contao/core-bundle": "~3.5 | ~4.0",
+    "contao-community-alliance/composer-plugin": "~2.0 | ~3.0",
+    "contao-community-alliance/event-dispatcher": "~2.0@dev"
   },
   "require-dev": {
     "phpcq/all-tasks": "~1.1"
