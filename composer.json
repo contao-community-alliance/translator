@@ -48,7 +48,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "2.0.x-dev"
+      "dev-feature/contao4": "2.1.x-dev"
     },
     "contao": {
       "sources": {
