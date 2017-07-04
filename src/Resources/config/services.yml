@@ -1,2 +1,8 @@
 services:
+    ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorService:
+        arguments:
+            - '@event_dispatcher'
 
+    contao.translator:
+        class: ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorService
+        factory: 'ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorService:createService'
