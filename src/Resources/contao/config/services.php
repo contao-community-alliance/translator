@@ -1,39 +1,22 @@
 <?php
 
 /**
- * The Contao Community Alliance translation library allows easy use of various translation string sources.
+ * This file is part of contao-community-alliance/translator.
  *
- * PHP version 5
+ * (c) 2013-2017 Contao Community Alliance <https://c-c-a.org>
  *
- * @package    ContaoCommunityAlliance\Translator
- * @subpackage Core
+ * This project is provided in good faith and hope to be usable by anyone.
+ *
+ * @package    contao-community-alliance/translator
  * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  The Contao Community Alliance
- * @license    LGPL.
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2013-2017 Contao Community Alliance <https://c-c-a.org>
+ * @license    https://github.com/contao-community-alliance/translator/LICENSE LGPL-3.0+
+ * @link       https://github.com/contao-community-alliance/translator
  * @filesource
  */
 
-use ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator;
-use ContaoCommunityAlliance\Translator\TranslatorChain;
-use ContaoCommunityAlliance\Translator\TranslatorInitializer;
 use DependencyInjection\Container\PimpleGate;
 
 /** @var PimpleGate $container */
-
-// Contao 4 code.
-if ($container->isContao4()) {
-    $container->provideSymfonyService('translator');
-    return;
-}
-
-$container['translator'] = function ($container) {
-    $translator = new TranslatorChain();
-
-    $translator->add(
-        new LangArrayTranslator($container['event-dispatcher'])
-    );
-
-    $initializer = new TranslatorInitializer($container['event-dispatcher']);
-
-    return $initializer->initialize($translator);
-};
+$container->provideSymfonyService('translator', 'contao.translator');
