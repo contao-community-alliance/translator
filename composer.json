@@ -29,7 +29,8 @@
   },
   "require": {
     "php": ">=5.6",
-    "contao/core-bundle": "~4.4"
+    "contao/core-bundle": "~4.4",
+    "symfony/event-dispatcher": "~3.0"
   },
   "require-dev": {
     "phpcq/all-tasks": "~1.1",
