@@ -19,4 +19,4 @@
 use DependencyInjection\Container\PimpleGate;
 
 /** @var PimpleGate $container */
-$container->provideSymfonyService('translator', 'contao.translator');
+$container->provideSymfonyService('translator', 'cca.translator.contao_translator');

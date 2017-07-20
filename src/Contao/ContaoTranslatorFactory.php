@@ -3,13 +3,13 @@
 /**
  * This file is part of contao-community-alliance/translator.
  *
- * (c) 2013-2016 Contao Community Alliance <https://c-c-a.org>
+ * (c) 2013-2017 Contao Community Alliance <https://c-c-a.org>
  *
  * This project is provided in good faith and hope to be usable by anyone.
  *
  * @package    contao-community-alliance/translator
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2013-2016 Contao Community Alliance <https://c-c-a.org>
+ * @copyright  2013-2017 Contao Community Alliance <https://c-c-a.org>
  * @license    https://github.com/contao-community-alliance/translator/LICENSE LGPL-3.0+
  * @link       https://github.com/contao-community-alliance/translator
  * @filesource

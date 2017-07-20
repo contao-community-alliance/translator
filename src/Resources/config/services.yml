@@ -3,6 +3,6 @@ services:
         arguments:
             - '@event_dispatcher'
 
-    contao.translator:
+    cca.translator.contao_translator:
         class: ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory
         factory: 'ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory:createService'
