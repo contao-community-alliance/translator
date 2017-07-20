@@ -24,7 +24,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * This class create the contao translator service.
  */
-class ContaoTranslatorService
+class ContaoTranslatorFactory
 {
     /**
      * The event dispatcher.
