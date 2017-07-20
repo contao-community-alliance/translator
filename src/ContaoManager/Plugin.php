@@ -37,7 +37,6 @@ class Plugin implements BundlePluginInterface
                     [
                         ContaoCoreBundle::class,
                         ContaoManagerBundle::class,
-                        CcaEventDispatcherBundle::class,
                         CcaEventsContaoBindingsBundle::class
                     ]
                 ),
