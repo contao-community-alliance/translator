@@ -28,5 +28,3 @@ if ((!$loader = includeIfExists(__DIR__.'/../vendor/autoload.php'))
 		'php composer.phar install'.PHP_EOL;
 	exit(1);
 }
-
-require_once __DIR__.'/ContaoCommunityAlliance/Translator/Test/TestCase.php';
