@@ -4,5 +4,5 @@ services:
             - '@event_dispatcher'
 
     cca.translator.contao_translator:
-        class: ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory
+        class: ContaoCommunityAlliance\Translator\TranslatorInterface
         factory: 'ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory:createService'
