@@ -46,7 +46,8 @@ class Plugin implements BundlePluginInterface
                         ContaoManagerBundle::class,
                         CcaEventsContaoBindingsBundle::class
                     ]
-                ),
+                )
+                ->setReplace(['translator'])
         ];
     }
 }
