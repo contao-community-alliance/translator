@@ -39,8 +39,8 @@ class CcaTranslatorExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
-        if (class_exists('Contao\CoreBundle\Translation\Translator')) {
-            $container->removeDefinition('cca.translator.backport45translator');
+        if (!$container->hasDefinition('contao.translation.translator')) {
+            $container->setAlias('contao.translation.translator', 'cca.translator.backport45translator');
         }
     }
 }
