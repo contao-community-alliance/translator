@@ -21,7 +21,7 @@ namespace ContaoCommunityAlliance\Translator;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface as SymfonyTranslatorInterface;
 
 /**
  * This class is a back-ported version of the translator contained in Contao 4.5 to ease the migration phase.
@@ -29,12 +29,12 @@ use Symfony\Component\Translation\TranslatorInterface;
  * This class is courtesy of Contao and has been adapted to work in PHP 5.6 and Contao 4.4.
  * Original author is Leo Feyer.
  */
-class BackportedTranslator implements TranslatorInterface
+class BackportedTranslator implements SymfonyTranslatorInterface
 {
     /**
      * The symfony translator to use as fallback.
      *
-     * @var TranslatorInterface
+     * @var SymfonyTranslatorInterface
      */
     private $translator;
 
@@ -48,10 +48,10 @@ class BackportedTranslator implements TranslatorInterface
     /**
      * Constructor.
      *
-     * @param TranslatorInterface      $translator The translator to decorate.
-     * @param ContaoFrameworkInterface $framework  The framework to use.
+     * @param SymfonyTranslatorInterface $translator The translator to decorate.
+     * @param ContaoFrameworkInterface   $framework  The framework to use.
      */
-    public function __construct(TranslatorInterface $translator, ContaoFrameworkInterface $framework)
+    public function __construct(SymfonyTranslatorInterface $translator, ContaoFrameworkInterface $framework)
     {
         $this->translator = $translator;
         $this->framework  = $framework;
