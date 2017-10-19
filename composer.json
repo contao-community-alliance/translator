@@ -34,7 +34,7 @@
     "contao-community-alliance/events-contao-bindings": "~4.0@dev"
   },
   "require-dev": {
-    "phpcq/all-tasks": "~1.1",
+    "phpcq/all-tasks": "~1.2",
     "contao/manager-bundle": "~4.4"
   },
   "autoload": {
