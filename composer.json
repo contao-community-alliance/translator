@@ -7,7 +7,7 @@
   ],
   "type":"contao-bundle",
   "homepage": "http://c-c-a.org/",
-  "license": "LGPL-3.0+",
+  "license": "LGPL-3.0-or-later",
   "authors": [
     {
       "name": "Christian Schiffler",
@@ -31,7 +31,7 @@
     "php": ">=5.6",
     "contao/core-bundle": "~4.4",
     "symfony/event-dispatcher": "~3.0",
-    "contao-community-alliance/events-contao-bindings": "~4.0@dev"
+    "contao-community-alliance/events-contao-bindings": "~4.4"
   },
   "require-dev": {
     "phpcq/all-tasks": "~1.2",
@@ -49,7 +49,9 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-feature/contao4": "2.1.x-dev"
+      "dev-master": "2.1.x-dev",
+      "dev-support/2.0.x": "2.0.x-dev",
+      "dev-develop": "2.2.x-dev"
     },
     "contao-manager-plugin": "ContaoCommunityAlliance\\Translator\\ContaoManager\\Plugin"
   }
