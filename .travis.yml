@@ -21,6 +21,7 @@ matrix:
 sudo: false
 
 install:
+  - phpenv config-add travis.php.ini
   - travis_retry composer self-update && composer --version
   - travis_retry composer require $CONTAO_VERSION --no-update
   - travis_retry composer update --prefer-dist --no-interaction

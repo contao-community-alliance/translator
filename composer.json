@@ -28,14 +28,14 @@
     "source": "https://github.com/contao-community-alliance/translator"
   },
   "require": {
-    "php": ">=5.6",
-    "contao/core-bundle": "~4.4",
-    "symfony/event-dispatcher": "~3.0",
-    "contao-community-alliance/events-contao-bindings": "~4.4"
+    "php": "^5.6 || ^7.0",
+    "contao/core-bundle": "^4.4",
+    "symfony/event-dispatcher": "^3.0",
+    "contao-community-alliance/events-contao-bindings": "^4.4"
   },
   "require-dev": {
-    "phpcq/all-tasks": "~1.2",
-    "contao/manager-bundle": "~4.4"
+    "phpcq/all-tasks": "^1.2",
+    "contao/manager-bundle": "^4.4"
   },
   "autoload": {
     "psr-4": {
