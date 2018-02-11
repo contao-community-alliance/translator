@@ -1,0 +1,15 @@
+services:
+    ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory:
+        arguments:
+            - '@event_dispatcher'
+
+    cca.translator.contao_translator:
+        class: ContaoCommunityAlliance\Translator\TranslatorInterface
+        factory: 'ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory:createService'
+
+    cca.translator.backport45translator:
+        class: ContaoCommunityAlliance\Translator\BackportedTranslator
+        decorates: translator
+        arguments:
+            - "@cca.translator.backport45translator.inner"
+            - "@contao.framework"

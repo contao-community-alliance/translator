@@ -1,13 +1,20 @@
 <?php
+
 /**
- * The Contao Community Alliance translation library allows easy use of various translation string sources.
+ * This file is part of contao-community-alliance/translator.
  *
- * PHP version 5
- * @package    ContaoCommunityAlliance\Translator\Test
- * @subpackage Tests
+ * (c) 2013-2018 Contao Community Alliance.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This project is provided in good faith and hope to be usable by anyone.
+ *
+ * @package    contao-community-alliance/translator
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  The Contao Community Alliance
- * @license    LGPL.
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2013-2018 Contao Community Alliance.
+ * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
 
@@ -15,6 +22,7 @@ namespace ContaoCommunityAlliance\Translator\Test\Contao;
 
 use ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator;
 use ContaoCommunityAlliance\Translator\Test\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Test case that test the LangArrayTranslator class.
@@ -46,20 +54,19 @@ class LangArrayTranslatorTest extends TestCase
      *
      * @param array $langArray The language strings to use.
      *
-     * @return LangArrayTranslator
+     * @return LangArrayTranslator|\PHPUnit_Framework_MockObject_MockObject
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function mockTranslator(array $langArray)
     {
-        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-
-        $translator = $this->getMock(
-            'ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator',
-            array('loadDomain'),
-            array($dispatcher)
-        );
+        $dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMockForAbstractClass();
+        $translator = $this
+            ->getMockBuilder(LangArrayTranslator::class)
+            ->setMethods(['loadDomain'])
+            ->setConstructorArgs([$dispatcher])
+            ->getMock();
 
         $translator
             ->expects($this->any())
