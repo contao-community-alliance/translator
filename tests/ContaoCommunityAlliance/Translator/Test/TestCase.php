@@ -6,6 +6,7 @@
  * @package    ContaoCommunityAlliance\Translator\Test
  * @subpackage Tests
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @copyright  The Contao Community Alliance
  * @license    LGPL.
  * @filesource
@@ -16,7 +17,7 @@ namespace ContaoCommunityAlliance\Translator\Test;
 /**
  * Abstract base class for test cases of the library.
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
 
 }

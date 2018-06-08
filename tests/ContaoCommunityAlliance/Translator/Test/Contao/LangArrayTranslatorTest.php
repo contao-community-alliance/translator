@@ -6,6 +6,7 @@
  * @package    ContaoCommunityAlliance\Translator\Test
  * @subpackage Tests
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @copyright  The Contao Community Alliance
  * @license    LGPL.
  * @filesource
@@ -15,6 +16,7 @@ namespace ContaoCommunityAlliance\Translator\Test\Contao;
 
 use ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator;
 use ContaoCommunityAlliance\Translator\Test\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Test case that test the LangArrayTranslator class.
@@ -53,13 +55,17 @@ class LangArrayTranslatorTest extends TestCase
      */
     protected function mockTranslator(array $langArray)
     {
-        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $dispatcher = $this
+            ->getMockBuilder(EventDispatcherInterface::class)
+            ->setMethods([])
+            ->setConstructorArgs([[]])
+            ->getMock();
 
-        $translator = $this->getMock(
-            'ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator',
-            array('loadDomain'),
-            array($dispatcher)
-        );
+        $translator = $this
+            ->getMockBuilder(LangArrayTranslator::class)
+            ->setMethods(['loadDomain'])
+            ->setConstructorArgs([$dispatcher])
+            ->getMock();
 
         $translator
             ->expects($this->any())
