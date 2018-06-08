@@ -51,6 +51,5 @@
         "contao": "system/modules/translator"
       }
     }
-  },
-  "minimum-stability": "dev"
+  }
 }
