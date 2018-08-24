@@ -5,6 +5,7 @@ services:
 
     cca.translator.contao_translator:
         class: ContaoCommunityAlliance\Translator\TranslatorInterface
+        public: true
         factory: 'ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory:createService'
 
     cca.translator.backport45translator:
