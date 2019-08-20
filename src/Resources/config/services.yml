@@ -10,7 +10,6 @@ services:
 
     cca.translator.backport45translator:
         class: ContaoCommunityAlliance\Translator\BackportedTranslator
-        decorates: translator
         arguments:
             - "@cca.translator.backport45translator.inner"
             - "@contao.framework"
