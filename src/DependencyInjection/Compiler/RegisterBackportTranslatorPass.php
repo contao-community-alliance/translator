@@ -11,8 +11,6 @@
  * This project is provided in good faith and hope to be usable by anyone.
  *
  * @package    contao-community-alliance/dependency-container
- * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @author     Sven Baumann <baumann.sv@gmail.com>
  * @author     David Molineus <david.molineus@netzmacht.de>
  * @copyright  2013-2019 Contao Community Alliance <https://c-c-a.org>
  * @license    https://github.com/contao-community-alliance/dependency-container/blob/master/LICENSE LGPL-3.0
@@ -20,24 +18,24 @@
  * @filesource
  */
 
-namespace ContaoCommunityAlliance\Translator\DependencyInjection;
+namespace ContaoCommunityAlliance\Translator\DependencyInjection\Compiler;
 
-use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * This is the class that loads and manages the bundle configuration
+ * This compiler pass sets the alias to contao.translation.translator and defines the decorated class
  */
-class CcaTranslatorExtension extends Extension
+class RegisterBackportTranslatorPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function process(ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
+        if (!$container->hasDefinition('contao.translation.translator')) {
+            $container->getDefinition('cca.translator.backport45translator')->setDecoratedService('translator');
+            $container->setAlias('contao.translation.translator', 'cca.translator.backport45translator');
+        }
     }
 }
