@@ -125,8 +125,8 @@ class BackportedTranslator implements SymfonyTranslatorInterface
     private function getFromGlobals($id)
     {
         // Split the ID into chunks allowing escaped dots (\.) and backslashes (\\)
-        preg_match_all('/(?:\\\\[.\\\\]|[^.])++/s', $id, $matches);
-        $parts = preg_replace('/\\\\([.\\\\])/s', '$1', $matches[0]);
+        preg_match_all('/(?:\\\\[\\\\.]|[^.])++/', $id, $matches);
+        $parts = preg_replace('/\\\\([\\\\.])/', '$1', $matches[0]);
         $item  = &$GLOBALS['TL_LANG'];
         foreach ($parts as $part) {
             if (!isset($item[$part])) {
