@@ -15,6 +15,7 @@
  * @author     Tristan Lins <tristan.lins@bit3.de>
  * @author     Stefan Heimes <stefan_heimes@hotmail.com>
  * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @author     David Molineus <david.molineus@netzmacht.de>
  * @copyright  2014-2018 Contao Community Alliance.
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
@@ -145,11 +146,13 @@ class TranslatorChain implements TranslatorInterface
     {
         $original = $string;
 
+        // phpcs:disable
         for ($translator = reset($this->translators);
              $translator && ($this->keepGoing || $string == $original);
              $translator = next($this->translators)) {
             $string = $translator->translate($string, $domain, $parameters, $locale);
         }
+        // phpcs:enable
 
         return $string;
     }
@@ -161,11 +164,13 @@ class TranslatorChain implements TranslatorInterface
     {
         $original = $string;
 
+        // phpcs:disable
         for ($translator = reset($this->translators);
              $translator && ($this->keepGoing || $string == $original);
              $translator = next($this->translators)) {
             $string = $translator->translatePluralized($string, $number, $domain, $parameters, $locale);
         }
+        // phpcs:enable
 
         return $string;
     }
