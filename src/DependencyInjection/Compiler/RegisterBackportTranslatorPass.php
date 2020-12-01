@@ -36,6 +36,8 @@ class RegisterBackportTranslatorPass implements CompilerPassInterface
         if (!$container->hasDefinition('contao.translation.translator')) {
             $container->getDefinition('cca.translator.backport45translator')->setDecoratedService('translator');
             $container->setAlias('contao.translation.translator', 'cca.translator.backport45translator');
+        } else {
+            $container->removeDefinition('cca.translator.backport45translator');
         }
     }
 }
