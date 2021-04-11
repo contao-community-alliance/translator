@@ -3,7 +3,7 @@
 /**
  * This file is part of contao-community-alliance/translator.
  *
- * (c) 2013-2018 Contao Community Alliance.
+ * (c) 2013-2021 Contao Community Alliance.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +13,7 @@
  * @package    contao-community-alliance/translator
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2013-2018 Contao Community Alliance.
+ * @copyright  2013-2021 Contao Community Alliance.
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
@@ -36,8 +36,8 @@ class StaticTranslatorTest extends TestCase
     {
         $translator = new StaticTranslator();
 
-        $this->assertSame($translator, $translator->setValue('', ''));
-        $this->assertSame($translator, $translator->setValuePluralized('', '', 1, 1));
+        self::assertSame($translator, $translator->setValue('', ''));
+        self::assertSame($translator, $translator->setValuePluralized('', '', 1, 1));
     }
 
     /**
@@ -48,15 +48,15 @@ class StaticTranslatorTest extends TestCase
     public function testReturnUntranslated()
     {
         $translator = new StaticTranslator();
-        $this->assertSame('test', $translator->translate('test'));
-        $this->assertSame('test', $translator->translate('test', 'default'));
-        $this->assertSame('test', $translator->translate('test', 'default', array(), 'default'));
-        $this->assertSame('test', $translator->translate('test', 'default', array(), 'de'));
+        self::assertSame('test', $translator->translate('test'));
+        self::assertSame('test', $translator->translate('test', 'default'));
+        self::assertSame('test', $translator->translate('test', 'default', array(), 'default'));
+        self::assertSame('test', $translator->translate('test', 'default', array(), 'de'));
 
-        $this->assertSame('test', $translator->translatePluralized('test', 1));
-        $this->assertSame('test', $translator->translatePluralized('test', 1, 'default'));
-        $this->assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'default'));
-        $this->assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'de'));
+        self::assertSame('test', $translator->translatePluralized('test', 1));
+        self::assertSame('test', $translator->translatePluralized('test', 1, 'default'));
+        self::assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'default'));
+        self::assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'de'));
     }
 
     /**
@@ -71,9 +71,9 @@ class StaticTranslatorTest extends TestCase
         $translator->setValue('test-default-domain', 'default-domain-value');
         $translator->setValue('test-default-domain', 'default-domain-value-en', null, 'en');
 
-        $this->assertSame('default-domain-value', $translator->translate('test-default-domain'));
-        $this->assertSame('default-domain-value', $translator->translate('test-default-domain', null, array('unused')));
-        $this->assertSame(
+        self::assertSame('default-domain-value', $translator->translate('test-default-domain'));
+        self::assertSame('default-domain-value', $translator->translate('test-default-domain', null, array('unused')));
+        self::assertSame(
             'default-domain-value-en',
             $translator->translate('test-default-domain', null, array('unused'), 'en')
         );
@@ -91,12 +91,12 @@ class StaticTranslatorTest extends TestCase
         $translator->setValue('test-custom-domain', 'custom-domain-value', 'custom');
         $translator->setValue('test-custom-domain', 'custom-domain-value-en', 'custom', 'en');
 
-        $this->assertSame('custom-domain-value', $translator->translate('test-custom-domain', 'custom'));
-        $this->assertSame(
+        self::assertSame('custom-domain-value', $translator->translate('test-custom-domain', 'custom'));
+        self::assertSame(
             'custom-domain-value',
             $translator->translate('test-custom-domain', 'custom', array('unused'))
         );
-        $this->assertSame(
+        self::assertSame(
             'custom-domain-value-en',
             $translator->translate('test-custom-domain', 'custom', array('unused'), 'en')
         );
@@ -116,11 +116,11 @@ class StaticTranslatorTest extends TestCase
         $translator->setValuePluralized('apple', 'a dozen of apples', 12, 12);
         $translator->setValuePluralized('apple', 'many apples', 13);
 
-        $this->assertSame('an apple', $translator->translatePluralized('apple', 1));
-        $this->assertSame('a few apples', $translator->translatePluralized('apple', 3));
-        $this->assertSame('a few apples', $translator->translatePluralized('apple', 5));
-        $this->assertSame('a dozen of apples', $translator->translatePluralized('apple', 12));
-        $this->assertSame('many apples', $translator->translatePluralized('apple', 13));
-        $this->assertSame('many apples', $translator->translatePluralized('apple', 100));
+        self::assertSame('an apple', $translator->translatePluralized('apple', 1));
+        self::assertSame('a few apples', $translator->translatePluralized('apple', 3));
+        self::assertSame('a few apples', $translator->translatePluralized('apple', 5));
+        self::assertSame('a dozen of apples', $translator->translatePluralized('apple', 12));
+        self::assertSame('many apples', $translator->translatePluralized('apple', 13));
+        self::assertSame('many apples', $translator->translatePluralized('apple', 100));
     }
 }
