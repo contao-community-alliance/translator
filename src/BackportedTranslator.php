@@ -13,6 +13,7 @@
  * @package    contao-community-alliance/translator
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @author     Philipp Lorenz <philipp.lorenz@etes.de>
  * @copyright  2013-2018 Contao Community Alliance.
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
@@ -125,8 +126,8 @@ class BackportedTranslator implements SymfonyTranslatorInterface
     private function getFromGlobals($id)
     {
         // Split the ID into chunks allowing escaped dots (\.) and backslashes (\\)
-        preg_match_all('/(?:\\\\[.\\\\]|[^.])++/s', $id, $matches);
-        $parts = preg_replace('/\\\\([.\\\\])/s', '$1', $matches[0]);
+        preg_match_all('/(?:\\\\[\\\\.]|[^.])++/', $id, $matches);
+        $parts = preg_replace('/\\\\([\\\\.])/', '$1', $matches[0]);
         $item  = &$GLOBALS['TL_LANG'];
         foreach ($parts as $part) {
             if (!isset($item[$part])) {
