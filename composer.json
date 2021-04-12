@@ -31,7 +31,7 @@
     "php": "^7.2",
     "contao/core-bundle": "^4.9",
     "symfony/event-dispatcher": "4.4.*",
-    "contao-community-alliance/events-contao-bindings": "4.4.*"
+    "contao-community-alliance/events-contao-bindings": "^4.9@dev"
   },
   "require-dev": {
     "phpcq/all-tasks": "^1.2",
