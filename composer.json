@@ -6,13 +6,13 @@
     "translation"
   ],
   "type":"contao-bundle",
-  "homepage": "http://c-c-a.org/",
+  "homepage": "https://c-c-a.org/",
   "license": "LGPL-3.0-or-later",
   "authors": [
     {
       "name": "Christian Schiffler",
       "email": "c.schiffler@cyberspectrum.de",
-      "homepage": "http://www.cyberspectrum.de",
+      "homepage": "https://www.cyberspectrum.de",
       "role": "Developer"
     },
     {
@@ -28,10 +28,10 @@
     "source": "https://github.com/contao-community-alliance/translator"
   },
   "require": {
-    "php": "^7.2",
+    "php": "^7.4",
     "contao/core-bundle": "^4.9",
-    "symfony/event-dispatcher": "4.4.*",
-    "contao-community-alliance/events-contao-bindings": "^4.9"
+    "symfony/event-dispatcher": "^5.4",
+    "contao-community-alliance/events-contao-bindings": "^4.10@dev"
   },
   "require-dev": {
     "phpcq/all-tasks": "^1.2",
@@ -49,9 +49,8 @@
   },
   "extra": {
     "branch-alias": {
+      "dev-master": "2.1.x-dev",
       "dev-support/2.0.x": "2.0.x-dev",
-      "dev-support/2.1.x": "2.1.x-dev",
-      "dev-master": "2.2.x-dev",
       "dev-release/2.3.0": "2.3.x-dev"
     },
     "contao-manager-plugin": "ContaoCommunityAlliance\\Translator\\ContaoManager\\Plugin"
