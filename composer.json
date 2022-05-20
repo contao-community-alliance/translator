@@ -3,7 +3,8 @@
   "description": "Multipurpose translation manager and interface",
   "keywords": [
     "contao",
-    "translation"
+    "translation",
+    "cca"
   ],
   "type":"contao-bundle",
   "homepage": "https://c-c-a.org/",
@@ -28,7 +29,7 @@
     "source": "https://github.com/contao-community-alliance/translator"
   },
   "require": {
-    "php": "^7.4",
+    "php": "^7.4 || ^8.0",
     "contao/core-bundle": "^4.9",
     "symfony/event-dispatcher": "^5.4",
     "contao-community-alliance/events-contao-bindings": "^4.10@dev"
