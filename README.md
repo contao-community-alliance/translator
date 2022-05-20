@@ -1,6 +1,6 @@
 Translator
 ==========
-[![Build Status](https://travis-ci.org/contao-community-alliance/translator.png?branch=master)](https://travis-ci.org/contao-community-alliance/translator)
+[![Build Status](https://github.com/contao-community-alliance/translator/actions/workflows/diagnostics.yml/badge.svg)](https://github.com/contao-community-alliance/translator/actions)
 
 The Contao Community Alliance translation library allows easy use of various translation string sources.
 
