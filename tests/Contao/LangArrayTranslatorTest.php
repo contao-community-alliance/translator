@@ -3,7 +3,7 @@
 /**
  * This file is part of contao-community-alliance/translator.
  *
- * (c) 2013-2018 Contao Community Alliance.
+ * (c) 2013-2021 Contao Community Alliance.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +13,7 @@
  * @package    contao-community-alliance/translator
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2013-2018 Contao Community Alliance.
+ * @copyright  2013-2021 Contao Community Alliance.
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
@@ -22,6 +22,7 @@ namespace ContaoCommunityAlliance\Translator\Test\Contao;
 
 use ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator;
 use ContaoCommunityAlliance\Translator\Test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -38,15 +39,15 @@ class LangArrayTranslatorTest extends TestCase
     {
         $translator = $this->mockTranslator(array());
 
-        $this->assertSame('test', $translator->translate('test'));
-        $this->assertSame('test', $translator->translate('test', 'default'));
-        $this->assertSame('test', $translator->translate('test', 'default', array(), 'default'));
-        $this->assertSame('test', $translator->translate('test', 'default', array(), 'de'));
+        self::assertSame('test', $translator->translate('test'));
+        self::assertSame('test', $translator->translate('test', 'default'));
+        self::assertSame('test', $translator->translate('test', 'default', array(), 'default'));
+        self::assertSame('test', $translator->translate('test', 'default', array(), 'de'));
 
-        $this->assertSame('test', $translator->translatePluralized('test', 1));
-        $this->assertSame('test', $translator->translatePluralized('test', 1, 'default'));
-        $this->assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'default'));
-        $this->assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'de'));
+        self::assertSame('test', $translator->translatePluralized('test', 1));
+        self::assertSame('test', $translator->translatePluralized('test', 1, 'default'));
+        self::assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'default'));
+        self::assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'de'));
     }
 
     /**
@@ -54,14 +55,14 @@ class LangArrayTranslatorTest extends TestCase
      *
      * @param array $langArray The language strings to use.
      *
-     * @return LangArrayTranslator|\PHPUnit_Framework_MockObject_MockObject
+     * @return LangArrayTranslator|MockObject
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      */
     protected function mockTranslator(array $langArray)
     {
-        $dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMockForAbstractClass();
+        $dispatcher = $this->getMockForAbstractClass(EventDispatcherInterface::class);
         $translator = $this
             ->getMockBuilder(LangArrayTranslator::class)
             ->setMethods(['loadDomain'])
@@ -69,9 +70,9 @@ class LangArrayTranslatorTest extends TestCase
             ->getMock();
 
         $translator
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('loadDomain')
-            ->will($this->returnValue(null));
+            ->willReturn(null);
 
         $GLOBALS['TL_LANG'] = $langArray;
 
@@ -89,13 +90,13 @@ class LangArrayTranslatorTest extends TestCase
             'test-default-domain' => 'default-domain-value'
         ));
 
-        $this->assertSame('default-domain-value', $translator->translate('test-default-domain'));
-        $this->assertSame('default-domain-value', $translator->translate('test-default-domain', null, array('unused')));
+        self::assertSame('default-domain-value', $translator->translate('test-default-domain'));
+        self::assertSame('default-domain-value', $translator->translate('test-default-domain', null, array('unused')));
 
         $translator = $this->mockTranslator(array(
             'test-default-domain' => 'default-domain-value-en'
         ));
-        $this->assertSame(
+        self::assertSame(
             'default-domain-value-en',
             $translator->translate('test-default-domain', null, array('unused'), 'en')
         );
@@ -112,8 +113,8 @@ class LangArrayTranslatorTest extends TestCase
             'test-custom-domain' => 'custom-domain-value'
         ));
 
-        $this->assertSame('custom-domain-value', $translator->translate('test-custom-domain', 'custom'));
-        $this->assertSame(
+        self::assertSame('custom-domain-value', $translator->translate('test-custom-domain', 'custom'));
+        self::assertSame(
             'custom-domain-value',
             $translator->translate('test-custom-domain', 'custom', array('unused'))
         );
@@ -122,7 +123,7 @@ class LangArrayTranslatorTest extends TestCase
             'test-custom-domain' => 'custom-domain-value-en'
         ));
 
-        $this->assertSame(
+        self::assertSame(
             'custom-domain-value-en',
             $translator->translate('test-custom-domain', 'custom', array('unused'), 'en')
         );
@@ -144,11 +145,11 @@ class LangArrayTranslatorTest extends TestCase
             )
         ));
 
-        $this->assertSame('an apple', $translator->translatePluralized('apple', 1));
-        $this->assertSame('a few apples', $translator->translatePluralized('apple', 3));
-        $this->assertSame('a few apples', $translator->translatePluralized('apple', 5));
-        $this->assertSame('a dozen of apples', $translator->translatePluralized('apple', 12));
-        $this->assertSame('many apples', $translator->translatePluralized('apple', 13));
-        $this->assertSame('many apples', $translator->translatePluralized('apple', 100));
+        self::assertSame('an apple', $translator->translatePluralized('apple', 1));
+        self::assertSame('a few apples', $translator->translatePluralized('apple', 3));
+        self::assertSame('a few apples', $translator->translatePluralized('apple', 5));
+        self::assertSame('a dozen of apples', $translator->translatePluralized('apple', 12));
+        self::assertSame('many apples', $translator->translatePluralized('apple', 13));
+        self::assertSame('many apples', $translator->translatePluralized('apple', 100));
     }
 }
