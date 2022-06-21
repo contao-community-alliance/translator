@@ -31,7 +31,7 @@
     "php": "^7.2",
     "contao/core-bundle": "^4.9",
     "symfony/event-dispatcher": "4.4.*",
-    "contao-community-alliance/events-contao-bindings": "^4.9@dev"
+    "contao-community-alliance/events-contao-bindings": "^4.9"
   },
   "require-dev": {
     "phpcq/all-tasks": "^1.2",
@@ -49,9 +49,10 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "2.1.x-dev",
       "dev-support/2.0.x": "2.0.x-dev",
-      "dev-release/2.2.0": "2.2.x-dev"
+      "dev-support/2.1.x": "2.1.x-dev",
+      "dev-master": "2.2.x-dev",
+      "dev-release/2.3.0": "2.3.x-dev"
     },
     "contao-manager-plugin": "ContaoCommunityAlliance\\Translator\\ContaoManager\\Plugin"
   }
