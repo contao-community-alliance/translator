@@ -7,9 +7,3 @@ services:
         class: ContaoCommunityAlliance\Translator\TranslatorInterface
         public: true
         factory: ['@ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory', 'createService']
-
-    cca.translator.backport45translator:
-        class: ContaoCommunityAlliance\Translator\BackportedTranslator
-        arguments:
-            - "@cca.translator.backport45translator.inner"
-            - "@contao.framework"
