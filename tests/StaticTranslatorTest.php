@@ -18,21 +18,19 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator\Test;
 
 use ContaoCommunityAlliance\Translator\StaticTranslator;
 
-/**
- * Test case that test the StaticTranslator class.
- */
+/** @covers \ContaoCommunityAlliance\Translator\StaticTranslator */
 class StaticTranslatorTest extends TestCase
 {
     /**
      * Test that the translator returns the own instance for the methods where it should.
-     *
-     * @return void
      */
-    public function testReturnsSelf()
+    public function testReturnsSelf(): void
     {
         $translator = new StaticTranslator();
 
@@ -40,87 +38,68 @@ class StaticTranslatorTest extends TestCase
         self::assertSame($translator, $translator->setValuePluralized('', '', 1, 1));
     }
 
-    /**
-     * Test that the translator always returns the original string when no translation value can be found.
-     *
-     * @return void
-     */
-    public function testReturnUntranslated()
-    {
-        $translator = new StaticTranslator();
-        self::assertSame('test', $translator->translate('test'));
-        self::assertSame('test', $translator->translate('test', 'default'));
-        self::assertSame('test', $translator->translate('test', 'default', array(), 'default'));
-        self::assertSame('test', $translator->translate('test', 'default', array(), 'de'));
-
-        self::assertSame('test', $translator->translatePluralized('test', 1));
-        self::assertSame('test', $translator->translatePluralized('test', 1, 'default'));
-        self::assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'default'));
-        self::assertSame('test', $translator->translatePluralized('test', 1, 'default', array(), 'de'));
-    }
-
-    /**
-     * Test the default domain handling.
-     *
-     * @return void
-     */
-    public function testDefaultDomain()
+    public function translateProvider()
     {
         $translator = new StaticTranslator();
 
+        yield 'returns the original string 1' => [$translator, 'test', ['test']];
+        yield 'returns the original string 2' => [$translator, 'test', ['test', 'default']];
+        yield 'returns the original string 3' => [$translator, 'test', ['test', 'default', [], 'default']];
+        yield 'returns the original string 4' => [$translator, 'test', ['test', 'default', [], 'de']];
+
+        $translator = new StaticTranslator();
         $translator->setValue('test-default-domain', 'default-domain-value');
         $translator->setValue('test-default-domain', 'default-domain-value-en', null, 'en');
 
-        self::assertSame('default-domain-value', $translator->translate('test-default-domain'));
-        self::assertSame('default-domain-value', $translator->translate('test-default-domain', null, array('unused')));
-        self::assertSame(
-            'default-domain-value-en',
-            $translator->translate('test-default-domain', null, array('unused'), 'en')
-        );
-    }
+        yield 'uses the default domain 1' => [$translator, 'default-domain-value', ['test-default-domain']];
+        yield 'uses the default domain 2' =>
+            [$translator, 'default-domain-value', ['test-default-domain', null, ['unused']]];
+        yield 'uses the default domain 3' =>
+            [$translator, 'default-domain-value-en', ['test-default-domain', null, ['unused'], 'en']];
 
-    /**
-     * Test the custom domain handling.
-     *
-     * @return void
-     */
-    public function testCustomDomain()
-    {
         $translator = new StaticTranslator();
-
         $translator->setValue('test-custom-domain', 'custom-domain-value', 'custom');
         $translator->setValue('test-custom-domain', 'custom-domain-value-en', 'custom', 'en');
 
-        self::assertSame('custom-domain-value', $translator->translate('test-custom-domain', 'custom'));
-        self::assertSame(
-            'custom-domain-value',
-            $translator->translate('test-custom-domain', 'custom', array('unused'))
-        );
-        self::assertSame(
-            'custom-domain-value-en',
-            $translator->translate('test-custom-domain', 'custom', array('unused'), 'en')
-        );
+        yield 'reads from custom domain 1' => [$translator, 'custom-domain-value', ['test-custom-domain', 'custom']];
+        yield 'reads from custom domain 2' =>
+            [$translator, 'custom-domain-value', ['test-custom-domain', 'custom', ['unused']]];
+        yield 'reads from custom domain 3' =>
+            [$translator, 'custom-domain-value-en', ['test-custom-domain', 'custom', ['unused'], 'en']];
     }
 
-    /**
-     * Test pluralization.
-     *
-     * @return void
-     */
-    public function testPluralization()
+    /** @dataProvider translateProvider */
+    public function testTranslate(StaticTranslator $translator, string $expected, array $arguments): void
+    {
+        self::assertSame($expected, call_user_func_array([$translator, 'translate'], $arguments));
+    }
+
+    public function translatePluralizedProvider()
     {
         $translator = new StaticTranslator();
 
+        yield 'returns the original string 1' => [$translator, 'test', ['test', 1]];
+        yield 'returns the original string 2' => [$translator, 'test', ['test', 1, 'default']];
+        yield 'returns the original string 3' => [$translator, 'test', ['test', 1, 'default', [], 'default']];
+        yield 'returns the original string 4' => [$translator, 'test', ['test', 1, 'default', [], 'de']];
+
+        $translator = new StaticTranslator();
         $translator->setValuePluralized('apple', 'an apple', 1, 1);
         $translator->setValuePluralized('apple', 'a few apples', null, 5);
         $translator->setValuePluralized('apple', 'a dozen of apples', 12, 12);
         $translator->setValuePluralized('apple', 'many apples', 13);
 
-        self::assertSame('an apple', $translator->translatePluralized('apple', 1));
-        self::assertSame('a few apples', $translator->translatePluralized('apple', 3));
-        self::assertSame('a few apples', $translator->translatePluralized('apple', 5));
-        self::assertSame('a dozen of apples', $translator->translatePluralized('apple', 12));
-        self::assertSame('many apples', $translator->translatePluralized('apple', 13));
-        self::assertSame('many apples', $translator->translatePluralized('apple', 100));
+        yield 'reads "an apple" for 1' => [$translator, 'an apple', ['apple', 1]];
+        yield 'reads "a few apples" for 3' => [$translator, 'a few apples', ['apple', 3]];
+        yield 'reads "a few apples" for 5' => [$translator, 'a few apples', ['apple', 5]];
+        yield 'reads "a dozen of apples" for 12' => [$translator, 'a dozen of apples', ['apple', 12]];
+        yield 'reads "many apples" for 13' => [$translator, 'many apples', ['apple', 13]];
+        yield 'reads "many apples" for 100' => [$translator, 'many apples', ['apple', 100]];
+    }
+
+    /** @dataProvider translatePluralizedProvider */
+    public function testTranslatePluralized(StaticTranslator $translator, string $expected, array $arguments): void
+    {
+        self::assertSame($expected, call_user_func_array([$translator, 'translatePluralized'], $arguments));
     }
 }

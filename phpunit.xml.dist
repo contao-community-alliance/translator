@@ -1,31 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
-<phpunit backupGlobals="false"
-		 backupStaticAttributes="false"
-		 colors="true"
-		 convertErrorsToExceptions="true"
-		 convertNoticesToExceptions="true"
-		 convertWarningsToExceptions="true"
-		 processIsolation="false"
-		 stopOnFailure="false"
-		 syntaxCheck="false"
-		 bootstrap="vendor/autoload.php"
-		>
-	<testsuites>
-		<testsuite name="Translator core tests">
-			<directory>./tests/</directory>
-		</testsuite>
-	</testsuites>
-
-	<groups>
-		<exclude>
-			<group>slow</group>
-		</exclude>
-	</groups>
-
-	<filter>
-		<whitelist>
-			<directory>./src/</directory>
-		</whitelist>
-	</filter>
+<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         colors="true"
+         forceCoversAnnotation="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutResourceUsageDuringSmallTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         bootstrap="vendor/autoload.php"
+>
+  <testsuites>
+    <testsuite name="tests">
+      <directory>./tests</directory>
+    </testsuite>
+  </testsuites>
+  <coverage>
+    <include>
+      <directory>./src</directory>
+    </include>
+  </coverage>
 </phpunit>

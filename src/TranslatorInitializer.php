@@ -19,6 +19,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator;
 
 use ContaoCommunityAlliance\Translator\Event\CreateTranslatorEvent;
@@ -26,8 +28,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class TranslatorInitializer emits an event to initialize a translator.
- *
- * @package ContaoCommunityAlliance\Translator
  */
 class TranslatorInitializer
 {
@@ -36,7 +36,7 @@ class TranslatorInitializer
      *
      * @var EventDispatcherInterface
      */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     /**
      * Construct.

@@ -16,6 +16,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 use DependencyInjection\Container\PimpleGate;
 
 /** @var PimpleGate $container */

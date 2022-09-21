@@ -18,6 +18,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -31,7 +33,7 @@ class RegisterBackportTranslatorPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('contao.translation.translator')) {
             $container->getDefinition('cca.translator.backport45translator')->setDecoratedService('translator');

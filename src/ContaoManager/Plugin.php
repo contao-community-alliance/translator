@@ -18,6 +18,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;

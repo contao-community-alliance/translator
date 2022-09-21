@@ -20,6 +20,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator\Event;
 
 use ContaoCommunityAlliance\Translator\TranslatorInterface;
@@ -37,14 +39,14 @@ class CreateTranslatorEvent extends Event
      *
      * @var string
      */
-    const NAME = 'contao-community-alliance.translator.create-translator';
+    public const NAME = 'contao-community-alliance.translator.create-translator';
 
     /**
      * The translator being initialized.
      *
      * @var TranslatorInterface
      */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * Construct.
@@ -58,10 +60,8 @@ class CreateTranslatorEvent extends Event
 
     /**
      * Get the translator.
-     *
-     * @return TranslatorInterface
      */
-    public function getTranslator()
+    public function getTranslator(): TranslatorInterface
     {
         return $this->translator;
     }

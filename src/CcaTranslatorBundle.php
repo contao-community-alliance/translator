@@ -17,6 +17,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator;
 
 use ContaoCommunityAlliance\Translator\DependencyInjection\Compiler\RegisterBackportTranslatorPass;
@@ -31,7 +33,7 @@ class CcaTranslatorBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new RegisterBackportTranslatorPass());
     }

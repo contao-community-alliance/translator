@@ -19,9 +19,11 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator;
 
-use \InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * Static in memory translator implementation.
@@ -29,15 +31,17 @@ use \InvalidArgumentException;
  * This translator holds all values in memory.
  *
  * It is to be populated via the public setValue method.
+ *
+ * @psalm-type
  */
 class StaticTranslator extends AbstractTranslator
 {
     /**
      * The translation values.
      *
-     * @var mixed[]
+     * @var array<string, array<string, array<string, string|array<string, string>>>>
      */
-    protected $values;
+    protected array $values = [];
 
     /**
      * Compare function for the pluralization array to be used as sorting callback.
@@ -59,36 +63,42 @@ class StaticTranslator extends AbstractTranslator
             return 0;
         }
 
-        $rangeA = explode(':', $a);
-        $rangeB = explode(':', $b);
+        /** @psalm-suppress RedundantCastGivenDocblockType - There is no way to enforce string array key :/ */
+        $rangeA = explode(':', (string) $a);
+        /** @psalm-suppress RedundantCastGivenDocblockType - There is no way to enforce string array key :/ */
+        $rangeB = explode(':', (string) $b);
 
+        $rangeA0 = !empty($rangeA[0] ?? null);
+        $rangeB0 = !empty($rangeB[0] ?? null);
         // Both range starts provided.
-        if (isset($rangeA[0]) && isset($rangeB[0])) {
+        if ($rangeA0 && $rangeB0) {
             return strcmp($rangeA[0], $rangeB[0]);
         }
 
         // Only second range has a starting point.
-        if (!isset($rangeA[0]) && isset($rangeB[0])) {
+        if ($rangeB0) {
             return -1;
         }
 
         // Only first range has a starting point.
-        if (isset($rangeA[0]) && !isset($rangeB[0])) {
+        if ($rangeA0) {
             return 1;
         }
 
+        $rangeA1 = !empty($rangeA[1] ?? null);
+        $rangeB1 = !empty($rangeB[1] ?? null);
         // Both are an open start range.
-        if (isset($rangeA[1]) && isset($rangeB[1])) {
+        if ($rangeA1 && $rangeB1) {
             return strcmp($rangeA[1], $rangeB[1]);
         }
 
         // Only second range is open => First is first.
-        if (!isset($rangeA[1]) && isset($rangeB[1])) {
+        if ($rangeB1) {
             return 1;
         }
 
         // Only first range is open => Second is first.
-        if (isset($rangeA[1]) && !isset($rangeB[1])) {
+        if ($rangeA1) {
             return -1;
         }
 
@@ -99,47 +109,33 @@ class StaticTranslator extends AbstractTranslator
     /**
      * Set a pluralized value in the translator.
      *
-     * @param string   $string The translation string.
-     *
-     * @param string   $value  The translation value.
-     *
-     * @param int|null $min    The minimum value of the range (optional - defaults to null).
-     *
-     * @param int|null $max    The maximum value of the range (optional - defaults to null).
-     *
-     * @param string   $domain The domain (optional - defaults to null).
-     *
-     * @param string   $locale The locale  (optional - defaults to null).
+     * @param string      $string The translation string.
+     * @param string      $value  The translation value.
+     * @param int|null    $min    The minimum value of the range (optional - defaults to null).
+     * @param int|null    $max    The maximum value of the range (optional - defaults to null).
+     * @param string|null $domain The domain (optional - defaults to null).
+     * @param string|null $locale The locale  (optional - defaults to null).
      *
      * @return StaticTranslator
      */
     public function setValuePluralized($string, $value, $min = null, $max = null, $domain = null, $locale = null)
     {
-        if (!$domain) {
+        if (null === $domain) {
             $domain = 'default';
         }
 
-        if (!$locale) {
+        if (null === $locale) {
             $locale = 'default';
         }
 
-        if (!(isset($this->values[$locale]) && is_array($this->values[$locale]))) {
-            $this->values[$locale] = array();
-        }
+        $this->ensureArrayStructure($locale, $domain);
 
-        if (!(isset($this->values[$locale][$domain]) && is_array($this->values[$locale][$domain]))) {
-            $this->values[$locale][$domain] = array();
-        }
-
-        if (isset($this->values[$locale][$domain][$string]) && is_array($this->values[$locale][$domain][$string])) {
-            $lang = $this->values[$locale][$domain][$string];
-        } else {
+        if (!is_array($lang = $this->values[$locale][$domain][$string] ?? null)) {
             // NOTE: we kill any value previously stored as there is no way to tell which value to use.
-            $lang = array();
+            $lang = [];
         }
 
         $lang[$this->determineKey($min, $max)] = $value;
-
         $lang = $this->sortPluralized($lang);
 
         $this->setValue($string, $lang, $domain, $locale);
@@ -167,33 +163,33 @@ class StaticTranslator extends AbstractTranslator
             throw new InvalidArgumentException('You must specify a valid value for min, max or both.');
         }
 
-        if ($minGiven && !$maxGiven) {
+        if (!$maxGiven) {
             // Open end range.
-            return $min . ':';
-        } elseif (!$minGiven && $maxGiven) {
+            return (string) $min . ':';
+        } elseif (!$minGiven) {
             // Open start range.
-            return ':' . $max;
+            return ':' . (string) $max;
         }
 
         if ($min === $max) {
             // Exact number.
-            return $min;
+            return (string) $min;
         }
 
         // Full defined range.
-        return $min . ':' . $max;
+        return (string) $min . ':' . (string) $max;
     }
 
     /**
      * Sort the given array for pluralization.
      *
-     * @param array $lang The language array to be sorted.
+     * @param array<string, string> $lang The language array to be sorted.
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function sortPluralized($lang)
     {
-        uksort($lang, array(__CLASS__, 'sortPluralizedCompare'));
+        uksort($lang, [__CLASS__, 'sortPluralizedCompare']);
 
         return $lang;
     }
@@ -201,13 +197,10 @@ class StaticTranslator extends AbstractTranslator
     /**
      * Set a translation value in the translator.
      *
-     * @param string $string The string to translate.
-     *
-     * @param mixed  $value  The value to store.
-     *
-     * @param string $domain The domain to use.
-     *
-     * @param string $locale The locale (otherwise the current default locale will get used).
+     * @param string                       $string The string to translate.
+     * @param string|array<string, string> $value The value to store.
+     * @param string                       $domain The domain to use.
+     * @param string                       $locale The locale (otherwise the current default locale will get used).
      *
      * @return StaticTranslator
      */
@@ -221,37 +214,20 @@ class StaticTranslator extends AbstractTranslator
             $locale = 'default';
         }
 
-        if (!(isset($this->values[$locale]) && is_array($this->values[$locale]))) {
-            $this->values[$locale] = array();
-        }
-
-        if (!(isset($this->values[$locale][$domain]) && is_array($this->values[$locale][$domain]))) {
-            $this->values[$locale][$domain] = array();
-        }
+        $this->ensureArrayStructure($locale, $domain);
 
         $this->values[$locale][$domain][$string] = $value;
 
         return $this;
     }
 
-    /**
-     * Retrieve the value.
-     *
-     * @param string $string The string to translate.
-     *
-     * @param string $domain The domain to use.
-     *
-     * @param string $locale The locale (otherwise the current default locale will get used).
-     *
-     * @return mixed
-     */
     protected function getValue($string, $domain, $locale)
     {
-        if (!$domain) {
+        if (null === $domain) {
             $domain = 'default';
         }
 
-        if (!$locale) {
+        if (null === $locale) {
             $locale = 'default';
         }
 
@@ -260,5 +236,16 @@ class StaticTranslator extends AbstractTranslator
         }
 
         return $this->values[$locale][$domain][$string];
+    }
+
+    private function ensureArrayStructure(string $locale, string $domain): void
+    {
+        if (!(isset($this->values[$locale]) && is_array($this->values[$locale]))) {
+            $this->values[$locale] = [];
+        }
+
+        if (!(isset($this->values[$locale][$domain]) && is_array($this->values[$locale][$domain]))) {
+            $this->values[$locale][$domain] = [];
+        }
     }
 }
