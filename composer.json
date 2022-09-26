@@ -65,9 +65,10 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "2.1.x-dev",
-      "dev-release/2.3.0": "2.3.x-dev",
-      "dev-support/2.0.x": "2.0.x-dev"
+      "dev-master": "2.3.x-dev",
+      "dev-support/2.0.x": "2.0.x-dev",
+      "dev-support/2.1.x": "2.1.x-dev",
+      "dev-support/2.2.x": "2.2.x-dev"
     },
     "contao-manager-plugin": "ContaoCommunityAlliance\\Translator\\ContaoManager\\Plugin"
   }
