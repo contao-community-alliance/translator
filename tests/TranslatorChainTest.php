@@ -18,6 +18,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator\Test;
 
 use ContaoCommunityAlliance\Translator\TranslatorChain;
@@ -27,7 +29,7 @@ use ContaoCommunityAlliance\Translator\TranslatorChain;
  */
 class TranslatorChainTest extends TestCase
 {
-
+    /** @SuppressWarnings(PHPMD.UnusedLocalVariable) */
     public function testChain()
     {
         $translator = new TranslatorChain();

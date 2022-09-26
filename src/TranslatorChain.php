@@ -21,6 +21,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator;
 
 /**
@@ -34,16 +36,14 @@ class TranslatorChain implements TranslatorInterface
     /**
      * The list of stored translators.
      *
-     * @var TranslatorInterface[]
+     * @var array<string, TranslatorInterface>
      */
-    protected $translators = array();
+    protected array $translators = [];
 
     /**
      * Keep going over translators, even if a translation was found.
-     *
-     * @var bool
      */
-    protected $keepGoing = false;
+    protected bool $keepGoing = false;
 
     /**
      * Clear the chain.
@@ -52,7 +52,7 @@ class TranslatorChain implements TranslatorInterface
      */
     public function clear()
     {
-        $this->translators = array();
+        $this->translators = [];
 
         return $this;
     }
@@ -60,7 +60,7 @@ class TranslatorChain implements TranslatorInterface
     /**
      * Add all passed translators to the chain.
      *
-     * @param array $translators The translators to add.
+     * @param list<TranslatorInterface> $translators The translators to add.
      *
      * @return TranslatorChain
      */

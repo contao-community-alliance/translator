@@ -19,6 +19,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator\Contao;
 
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
@@ -38,14 +40,14 @@ class LangArrayTranslator extends AbstractTranslator
      *
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * Create a new instance.
      *
      * @param EventDispatcherInterface $eventDispatcher The event dispatcher to use.
      */
-    public function __construct($eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -55,37 +57,45 @@ class LangArrayTranslator extends AbstractTranslator
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
+     *
+     * @psalm-suppress MixedInferredReturnType
      */
     protected function getValue($string, $domain, $locale)
     {
-        if (!$domain) {
+        if (null === $domain) {
             $domain = 'default';
+        }
+
+        if (null === $locale) {
+            $locale = 'default';
         }
 
         $this->loadDomain($domain, $locale);
 
+        /** @var array $globalLang */
+        $globalLang = $GLOBALS['TL_LANG'];
         // We have to treat 'languages', 'default', 'modules' etc. domains differently.
-        if (!(isset($GLOBALS['TL_LANG'][$domain]) && is_array($GLOBALS['TL_LANG'][$domain]))
-            && (substr($domain, 0, 2) != 'tl_')
-        ) {
-            $lang = $GLOBALS['TL_LANG'];
+        if (substr($domain, 0, 3) !== 'tl_') {
+            $lang = $globalLang;
         } else {
-            if (!is_array($GLOBALS['TL_LANG'][$domain])) {
+            if (!is_array($globalLang[$domain] ?? null)) {
                 return $string;
             }
-            $lang = $GLOBALS['TL_LANG'][$domain];
+            /** @psalm-suppress MixedAssignment */
+            $lang = $globalLang[$domain];
         }
 
         $chunks = explode('.', $string);
 
         while (($chunk = array_shift($chunks)) !== null) {
-            if (!array_key_exists($chunk, $lang)) {
+            if (!is_array($lang) || !array_key_exists($chunk, $lang)) {
                 return $string;
             }
-
+            /** @psalm-suppress MixedAssignment */
             $lang = $lang[$chunk];
         }
 
+        /** @psalm-suppress MixedReturnStatement */
         return $lang;
     }
 

@@ -19,19 +19,31 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator;
+
+use function count;
+use function explode;
+use function is_array;
+use function vsprintf;
 
 /**
  * Abstract base implementation of a translator.
+ *
+ *
+ * @psalm-type TChoiceType=object{range: object{from: int, to: int}, string: string}
+ * @psalm-type TChoiceList=list<TChoiceType>
  */
 abstract class AbstractTranslator implements TranslatorInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function translate($string, $domain = null, array $parameters = array(), $locale = null)
+    public function translate($string, $domain = null, array $parameters = [], $locale = null)
     {
         $newString = $this->getValue($string, $domain, $locale);
+        assert(is_string($newString));
 
         if ($newString == $string) {
             return $string;
@@ -45,14 +57,20 @@ abstract class AbstractTranslator implements TranslatorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve the value.
+     *
+     * @param string      $string The string to translate.
+     * @param string|null $domain The domain to use.
+     * @param string|null $locale The locale (otherwise the current default locale will get used).
+     *
+     * @return array<string, string>|string
      */
     abstract protected function getValue($string, $domain, $locale);
 
     /**
      * {@inheritdoc}
      */
-    public function translatePluralized($string, $number, $domain = null, array $parameters = array(), $locale = null)
+    public function translatePluralized($string, $number, $domain = null, array $parameters = [], $locale = null)
     {
         $choices = $this->getValue($string, $domain, $locale);
 
@@ -60,9 +78,7 @@ abstract class AbstractTranslator implements TranslatorInterface
             return $string;
         }
 
-        if (isset($choices[$number])) {
-            $newString = $choices[$number];
-        } else {
+        if (null === ($newString = $choices[(string) $number] ?? null)) {
             $array = $this->buildChoiceLookupList($choices);
 
             $count = count($array);
@@ -91,35 +107,36 @@ abstract class AbstractTranslator implements TranslatorInterface
      * Build a choice lookup list from the passed language choice array.
      *
      * The input array is something like:
-     * array(
+     * [
      *   '1'   => 'an apple',
      *   '2:5' => 'a few apples',
      *   '12'  => 'a dozen of apples',
      *   '13:' => 'a pile of apples'
-     * )
+     * ]
      *
-     * @param array $choices The language strings.
+     * @param array<string, string> $choices The language strings.
      *
-     * @return array
+     * @return TChoiceList
      */
     protected function buildChoiceLookupList($choices)
     {
-        $array = array();
+        $array = [];
 
         foreach ($choices as $range => $choice) {
-            $range = explode(':', $range);
+            /** @psalm-suppress RedundantCastGivenDocblockType - There is no way to enforce string array key :/ */
+            $range = explode(':', (string) $range);
 
             if (count($range) < 2) {
                 $range[] = '';
             }
 
-            $array[] = (object) array(
-                'range' => (object) array(
-                    'from' => $range[0],
-                    'to' => $range[1],
-                ),
+            $array[] = (object) [
+                'range' => (object) [
+                    'from' => (int) $range[0],
+                    'to' => (int) $range[1],
+                ],
                 'string' => $choice
-            );
+            ];
         }
 
         return $array;
@@ -128,13 +145,11 @@ abstract class AbstractTranslator implements TranslatorInterface
     /**
      * Extract a single choice from the array of choices and sanitize its values.
      *
-     * @param array $choices The choice array.
-     *
+     * @param TChoiceList $choices The choice array.
      * @param int   $index   The index to extract.
-     *
      * @param int   $count   Amount of all choices in the array (passed to prevent calling count() multiple times).
      *
-     * @return object
+     * @return TChoiceType
      */
     protected function fetchChoice($choices, $index, $count)
     {

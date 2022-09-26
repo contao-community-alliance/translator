@@ -16,6 +16,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator\Contao;
 
 use ContaoCommunityAlliance\Translator\TranslatorChain;

@@ -18,3 +18,4 @@ vendor/
 # build
 build/
 .phpunit.result.cache
+/.phpcq/*

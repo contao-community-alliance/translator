@@ -17,10 +17,10 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace ContaoCommunityAlliance\Translator;
 
-use ContaoCommunityAlliance\Translator\DependencyInjection\Compiler\RegisterBackportTranslatorPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -28,11 +28,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class CcaTranslatorBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        $container->addCompilerPass(new RegisterBackportTranslatorPass());
-    }
 }
