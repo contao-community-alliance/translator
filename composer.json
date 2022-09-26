@@ -30,7 +30,7 @@
   },
   "require": {
     "php": "^7.4 || ^8.0",
-    "contao-community-alliance/events-contao-bindings": "^4.13@dev",
+    "contao-community-alliance/events-contao-bindings": "^4.13",
     "contao/core-bundle": "^4.13",
     "symfony/config": "^5.4",
     "symfony/dependency-injection": "^5.4",
