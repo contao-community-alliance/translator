@@ -3,7 +3,7 @@
 /**
  * This file is part of contao-community-alliance/translator.
  *
- * (c) 2013-2021 Contao Community Alliance.
+ * (c) 2013-2023 Contao Community Alliance.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,8 @@
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Tristan Lins <tristan.lins@bit3.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2013-2021 Contao Community Alliance.
+ * @author     Ingolf Steinhardt <info@e-spin.de>
+ * @copyright  2013-2023 Contao Community Alliance.
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
@@ -53,8 +54,13 @@ class LangArrayTranslator extends AbstractTranslator
     }
 
     /**
-     * {@inheritDoc}
+     * Retrieve the value.
      *
+     * @param mixed       $string The string to translate.
+     * @param string|null $domain The domain to use.
+     * @param string|null $locale The locale (otherwise the current default locale will get used).
+     *
+     * @return array<string, string>|string
      * @SuppressWarnings(PHPMD.Superglobals)
      * @SuppressWarnings(PHPMD.CamelCaseVariableName)
      *
@@ -62,6 +68,13 @@ class LangArrayTranslator extends AbstractTranslator
      */
     protected function getValue($string, $domain, $locale)
     {
+        if (false === \is_string($string)) {
+            // @codingStandardsIgnoreStart
+            @\trigger_error('Only string allowed to translate!', E_USER_DEPRECATED);
+            // @codingStandardsIgnoreEnd
+            return '';
+        }
+
         if (null === $domain) {
             $domain = 'default';
         }
