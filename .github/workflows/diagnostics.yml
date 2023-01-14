@@ -15,13 +15,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - php: 7.4
-            output: '-o github-action -o default'
-            phpcq_install: 'install'
-          - php: 8.0
-            output: '-o default'
-            phpcq_install: 'update'
+        php: ['7.4', '8.0', '8.1', '8.2']
+        phpcq_install: ['update']
+        output: ['-o github-action -o default']
 
     steps:
       - name: Pull source
