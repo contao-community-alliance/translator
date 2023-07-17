@@ -37,7 +37,8 @@
     "symfony/event-dispatcher": "^5.4",
     "symfony/event-dispatcher-contracts": "^1.1 || ^2.0",
     "symfony/http-kernel": "^5.4",
-    "symfony/translation": "^5.4"
+    "symfony/translation": "^5.4",
+    "symfony/translation-contracts": "^2.3"
   },
   "require-dev": {
     "contao-community-alliance/dependency-container": "^2.1",
@@ -66,6 +67,7 @@
   },
   "extra": {
     "branch-alias": {
+      "dev-release/2.4.0": "2.4.x-dev",
       "dev-master": "2.3.x-dev",
       "dev-support/2.0.x": "2.0.x-dev",
       "dev-support/2.1.x": "2.1.x-dev",

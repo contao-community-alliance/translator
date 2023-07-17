@@ -43,7 +43,7 @@ abstract class AbstractTranslator implements TranslatorInterface
     public function translate($string, $domain = null, array $parameters = [], $locale = null)
     {
         $newString = $this->getValue($string, $domain, $locale);
-        assert(is_string($newString));
+        assert(is_string($newString), 'Expected ' . var_export($newString, true) . ' to be a string.');
 
         if ($newString == $string) {
             return $string;

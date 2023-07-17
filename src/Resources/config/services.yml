@@ -2,6 +2,7 @@ services:
     ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory:
         arguments:
             - '@event_dispatcher'
+            - '@translator'
 
     cca.translator.contao_translator:
         class: ContaoCommunityAlliance\Translator\TranslatorInterface
