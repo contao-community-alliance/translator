@@ -45,7 +45,7 @@
     "phpcq/runner-bootstrap": "^1.0@dev"
   },
   "conflict": {
-    "contao-community-alliance/dependency-container": "<2.1,>=3.0"
+    "contao-community-alliance/dependency-container": "<2.1 >=3.0"
   },
   "autoload": {
     "psr-4": {
@@ -60,7 +60,8 @@
   "config": {
     "allow-plugins": {
       "contao-components/installer": false,
-      "contao/manager-plugin": false
+      "contao/manager-plugin": false,
+      "php-http/discovery": false
     }
   },
   "extra": {

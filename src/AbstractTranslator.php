@@ -126,14 +126,10 @@ abstract class AbstractTranslator implements TranslatorInterface
             /** @psalm-suppress RedundantCastGivenDocblockType - There is no way to enforce string array key :/ */
             $range = explode(':', (string) $range);
 
-            if (count($range) < 2) {
-                $range[] = '';
-            }
-
             $array[] = (object) [
                 'range' => (object) [
                     'from' => (int) $range[0],
-                    'to' => (int) $range[1],
+                    'to' => (int) ($range[1] ?? 0),
                 ],
                 'string' => $choice
             ];
