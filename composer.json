@@ -29,7 +29,7 @@
     "source": "https://github.com/contao-community-alliance/translator"
   },
   "require": {
-    "php": "^7.4 || ^8.0",
+    "php": "^8.1",
     "contao-community-alliance/events-contao-bindings": "^4.13",
     "contao/core-bundle": "^4.13",
     "symfony/config": "^5.4",
