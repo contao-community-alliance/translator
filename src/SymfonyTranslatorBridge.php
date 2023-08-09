@@ -71,11 +71,6 @@ final class SymfonyTranslatorBridge implements TranslatorInterface
      */
     private function try(string $string, array $parameters, ?string $domain, ?string $locale): string
     {
-        if (!empty($domain)) {
-            // FIXME: Do we really need to always add contao_ prefix?
-            $domain = 'contao_' . $domain;
-        }
-
         // Check if we have an associative array.
         $transParams = array_is_list($parameters) ? [] : $parameters;
 
@@ -104,11 +99,6 @@ final class SymfonyTranslatorBridge implements TranslatorInterface
         ?string $domain,
         ?string $locale
     ): string {
-        if (!empty($domain)) {
-            // FIXME: Do we really need to always add contao_ prefix?
-            $domain = 'contao_' . $domain;
-        }
-
         // Check if we have an associative array.
         $transParams = array_is_list($parameters) ? [] : $parameters;
         $transParams['%count%'] = $count;
