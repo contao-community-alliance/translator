@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator\DependencyInjection;
 
+use ContaoCommunityAlliance\Translator\Contao\ContaoTranslatorFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -41,5 +42,11 @@ class CcaTranslatorExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
+
+        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+        if (!$config['enable_symfony_bridge']) {
+            $factory = $container->getDefinition(ContaoTranslatorFactory::class);
+            $factory->replaceArgument(1, null);
+        }
     }
 }

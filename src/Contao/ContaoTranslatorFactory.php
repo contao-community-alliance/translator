@@ -39,7 +39,7 @@ class ContaoTranslatorFactory
      */
     public function __construct(
         protected EventDispatcherInterface $dispatcher,
-        private SymfonyTranslator $translator
+        private readonly ?SymfonyTranslator $translator = null
     ) {
     }
 
@@ -48,14 +48,16 @@ class ContaoTranslatorFactory
      *
      * @return TranslatorInterface
      */
-    public function createService()
+    public function createService(): TranslatorInterface
     {
         $translator = new TranslatorChain();
 
+        if (null !== $this->translator) {
+            $translator->add(new SymfonyTranslatorBridge($this->translator));
+        }
         $translator->add(new LangArrayTranslator($this->dispatcher));
         $initializer = new TranslatorInitializer($this->dispatcher);
         $initializer->initialize($translator);
-        $translator->add(new SymfonyTranslatorBridge($this->translator));
 
         return $translator;
     }
