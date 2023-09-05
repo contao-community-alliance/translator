@@ -12,6 +12,7 @@
  *
  * @package    contao-community-alliance/translator
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     Ingolf Steinhardt <info@e-spin.de>
  * @copyright  2013-2023 Contao Community Alliance <https://c-c-a.org>
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @link       https://github.com/contao-community-alliance/translator
@@ -30,6 +31,12 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    /**
+     * @inheritDoc
+     *
+     * @psalm-suppress UndefinedMethod
+     * @psalm-suppress MixedMethodCall
+     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('cca_translator');

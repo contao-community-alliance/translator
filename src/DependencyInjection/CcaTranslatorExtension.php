@@ -3,7 +3,7 @@
 /**
  * This file is part of contao-community-alliance/dependency-container.
  *
- * (c) 2013-2018 Contao Community Alliance <https://c-c-a.org>
+ * (c) 2013-2023 Contao Community Alliance <https://c-c-a.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,8 @@
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2019 Contao Community Alliance <https://c-c-a.org>
+ * @author     Ingolf Steinhardt <info@e-spin.de>
+ * @copyright  2013-2023 Contao Community Alliance <https://c-c-a.org>
  * @license    https://github.com/contao-community-alliance/dependency-container/blob/master/LICENSE LGPL-3.0
  * @link       https://github.com/contao-community-alliance/dependency-container
  * @filesource
@@ -43,7 +44,11 @@ class CcaTranslatorExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
-        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+        if (null === ($configuration = $this->getConfiguration($configs, $container))) {
+            return;
+        }
+
+        $config = $this->processConfiguration($configuration, $configs);
         if (!$config['enable_symfony_bridge']) {
             $factory = $container->getDefinition(ContaoTranslatorFactory::class);
             $factory->replaceArgument(1, null);
