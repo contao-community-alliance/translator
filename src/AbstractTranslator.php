@@ -43,7 +43,7 @@ abstract class AbstractTranslator implements TranslatorInterface
     public function translate($string, $domain = null, array $parameters = [], $locale = null)
     {
         $newString = $this->getValue($string, $domain, $locale);
-        assert(is_string($newString));
+        assert(is_string($newString), 'Expected ' . var_export($newString, true) . ' to be a string.');
 
         if ($newString == $string) {
             return $string;
@@ -126,14 +126,10 @@ abstract class AbstractTranslator implements TranslatorInterface
             /** @psalm-suppress RedundantCastGivenDocblockType - There is no way to enforce string array key :/ */
             $range = explode(':', (string) $range);
 
-            if (count($range) < 2) {
-                $range[] = '';
-            }
-
             $array[] = (object) [
                 'range' => (object) [
                     'from' => (int) $range[0],
-                    'to' => (int) $range[1],
+                    'to' => (int) ($range[1] ?? 0),
                 ],
                 'string' => $choice
             ];

@@ -25,16 +25,18 @@ namespace ContaoCommunityAlliance\Translator;
 
 /**
  * This interface describes a translator.
+ *
+ * @psalm-type TParameterArray=list<float|int|string>
  */
 interface TranslatorInterface
 {
     /**
      * Translate a string in a specific domain.
      *
-     * @param string      $string     The translation string.
-     * @param string|null $domain     The translation domain.
-     * @param array       $parameters Parameters used in translation.
-     * @param string|null $locale     The translation locale.
+     * @param string          $string     The translation string.
+     * @param string|null     $domain     The translation domain.
+     * @param TParameterArray $parameters Parameters used in translation.
+     * @param string|null     $locale     The translation locale.
      *
      * @return string
      */
@@ -43,11 +45,11 @@ interface TranslatorInterface
     /**
      * Translate a pluralized string in a specific domain.
      *
-     * @param string      $string     The translation string.
-     * @param int         $number     The pluralization number.
-     * @param string|null $domain     The translation domain.
-     * @param array       $parameters Parameters used in translation.
-     * @param string|null $locale     The translation locale.
+     * @param string          $string     The translation string.
+     * @param int             $number     The pluralization number.
+     * @param string|null     $domain     The translation domain.
+     * @param TParameterArray $parameters Parameters used in translation.
+     * @param string|null     $locale     The translation locale.
      *
      * @return string
      */

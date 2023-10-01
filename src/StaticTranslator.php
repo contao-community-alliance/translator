@@ -89,6 +89,7 @@ class StaticTranslator extends AbstractTranslator
         $rangeB1 = !empty($rangeB[1] ?? null);
         // Both are an open start range.
         if ($rangeA1 && $rangeB1) {
+            /** @psalm-suppress PossiblyUndefinedArrayOffset The array keys must exist due to above checks */
             return strcmp($rangeA[1], $rangeB[1]);
         }
 

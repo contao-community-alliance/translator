@@ -20,9 +20,12 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator\Contao;
 
+use ContaoCommunityAlliance\Translator\SymfonyTranslatorBridge;
 use ContaoCommunityAlliance\Translator\TranslatorChain;
 use ContaoCommunityAlliance\Translator\TranslatorInitializer;
+use ContaoCommunityAlliance\Translator\TranslatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface as SymfonyTranslator;
 
 /**
  * This class create the contao translator service.
@@ -30,35 +33,32 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class ContaoTranslatorFactory
 {
     /**
-     * The event dispatcher.
-     *
-     * @var EventDispatcherInterface
-     */
-    protected $dispatcher;
-
-    /**
      * Create a new instance.
      *
      * @param EventDispatcherInterface $dispatcher The event dispatcher to use.
      */
-    public function __construct(EventDispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
+    public function __construct(
+        protected EventDispatcherInterface $dispatcher,
+        private readonly ?SymfonyTranslator $translator = null
+    ) {
     }
 
     /**
      * Create the translator service.
      *
-     * @return \ContaoCommunityAlliance\Translator\TranslatorInterface
+     * @return TranslatorInterface
      */
-    public function createService()
+    public function createService(): TranslatorInterface
     {
         $translator = new TranslatorChain();
 
+        if (null !== $this->translator) {
+            $translator->add(new SymfonyTranslatorBridge($this->translator));
+        }
         $translator->add(new LangArrayTranslator($this->dispatcher));
-
         $initializer = new TranslatorInitializer($this->dispatcher);
+        $initializer->initialize($translator);
 
-        return $initializer->initialize($translator);
+        return $translator;
     }
 }
