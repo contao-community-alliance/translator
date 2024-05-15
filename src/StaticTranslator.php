@@ -3,7 +3,7 @@
 /**
  * This file is part of contao-community-alliance/translator.
  *
- * (c) 2013-2018 Contao Community Alliance.
+ * (c) 2013-2024 Contao Community Alliance.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,8 @@
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Tristan Lins <tristan.lins@bit3.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Contao Community Alliance.
+ * @author     Ingolf Steinhardt <info@e-spin.de>
+ * @copyright  2014-2024 Contao Community Alliance.
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
@@ -24,6 +25,11 @@ declare(strict_types=1);
 namespace ContaoCommunityAlliance\Translator;
 
 use InvalidArgumentException;
+
+use function explode;
+use function is_array;
+use function strcmp;
+use function uksort;
 
 /**
  * Static in memory translator implementation.
@@ -59,7 +65,7 @@ class StaticTranslator extends AbstractTranslator
      */
     protected static function sortPluralizedCompare($a, $b)
     {
-        if ($a == $b) {
+        if ($a === $b) {
             return 0;
         }
 
@@ -68,8 +74,8 @@ class StaticTranslator extends AbstractTranslator
         /** @psalm-suppress RedundantCastGivenDocblockType - There is no way to enforce string array key :/ */
         $rangeB = explode(':', (string) $b);
 
-        $rangeA0 = !empty($rangeA[0] ?? null);
-        $rangeB0 = !empty($rangeB[0] ?? null);
+        $rangeA0 = '' !== ($rangeA[0] ?? '');
+        $rangeB0 = '' !== ($rangeB[0] ?? '');
         // Both range starts provided.
         if ($rangeA0 && $rangeB0) {
             return strcmp($rangeA[0], $rangeB[0]);
@@ -85,8 +91,8 @@ class StaticTranslator extends AbstractTranslator
             return 1;
         }
 
-        $rangeA1 = !empty($rangeA[1] ?? null);
-        $rangeB1 = !empty($rangeB[1] ?? null);
+        $rangeA1 = '' !== ($rangeA[1] ?? '');
+        $rangeB1 = '' !== ($rangeB[0] ?? '');
         // Both are an open start range.
         if ($rangeA1 && $rangeB1) {
             /** @psalm-suppress PossiblyUndefinedArrayOffset The array keys must exist due to above checks */
@@ -115,7 +121,7 @@ class StaticTranslator extends AbstractTranslator
      * @param int|null    $min    The minimum value of the range (optional - defaults to null).
      * @param int|null    $max    The maximum value of the range (optional - defaults to null).
      * @param string|null $domain The domain (optional - defaults to null).
-     * @param string|null $locale The locale  (optional - defaults to null).
+     * @param string|null $locale The locale (optional - defaults to null).
      *
      * @return StaticTranslator
      */
@@ -126,7 +132,7 @@ class StaticTranslator extends AbstractTranslator
         }
 
         if (null === $locale) {
-            $locale = 'default';
+            $locale = 'en';
         }
 
         $this->ensureArrayStructure($locale, $domain);
@@ -148,7 +154,6 @@ class StaticTranslator extends AbstractTranslator
      * Determine the correct pluralization key.
      *
      * @param int|null $min The minimum value.
-     *
      * @param int|null $max The maximum value.
      *
      * @return string
@@ -167,7 +172,9 @@ class StaticTranslator extends AbstractTranslator
         if (!$maxGiven) {
             // Open end range.
             return (string) $min . ':';
-        } elseif (!$minGiven) {
+        }
+
+        if (!$minGiven) {
             // Open start range.
             return ':' . (string) $max;
         }
@@ -190,7 +197,7 @@ class StaticTranslator extends AbstractTranslator
      */
     protected function sortPluralized($lang)
     {
-        uksort($lang, [__CLASS__, 'sortPluralizedCompare']);
+        uksort($lang, static fn (string $one, string $two): int => self::sortPluralizedCompare($one, $two));
 
         return $lang;
     }
@@ -199,7 +206,7 @@ class StaticTranslator extends AbstractTranslator
      * Set a translation value in the translator.
      *
      * @param string                       $string The string to translate.
-     * @param string|array<string, string> $value The value to store.
+     * @param string|array<string, string> $value  The value to store.
      * @param string                       $domain The domain to use.
      * @param string                       $locale The locale (otherwise the current default locale will get used).
      *
@@ -207,12 +214,12 @@ class StaticTranslator extends AbstractTranslator
      */
     public function setValue($string, $value, $domain = null, $locale = null)
     {
-        if (!$domain) {
+        if (null === $domain || '' === $domain) {
             $domain = 'default';
         }
 
-        if (!$locale) {
-            $locale = 'default';
+        if (null === $locale || '' === $locale) {
+            $locale = 'en';
         }
 
         $this->ensureArrayStructure($locale, $domain);
@@ -229,7 +236,7 @@ class StaticTranslator extends AbstractTranslator
         }
 
         if (null === $locale) {
-            $locale = 'default';
+            $locale = 'en';
         }
 
         if (!isset($this->values[$locale][$domain][$string])) {

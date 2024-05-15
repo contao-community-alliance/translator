@@ -49,23 +49,27 @@ class StaticTranslatorTest extends TestCase
 
         $translator = new StaticTranslator();
         $translator->setValue('test-default-domain', 'default-domain-value');
-        $translator->setValue('test-default-domain', 'default-domain-value-en', null, 'en');
+        $translator->setValue('test-default-domain', 'default-domain-value-de', null, 'de');
 
         yield 'uses the default domain 1' => [$translator, 'default-domain-value', ['test-default-domain']];
         yield 'uses the default domain 2' =>
             [$translator, 'default-domain-value', ['test-default-domain', null, ['unused']]];
         yield 'uses the default domain 3' =>
-            [$translator, 'default-domain-value-en', ['test-default-domain', null, ['unused'], 'en']];
+            [$translator, 'default-domain-value-de', ['test-default-domain', null, ['unused'], 'de']];
+        yield 'uses the default domain 4' =>
+        [$translator, 'default-domain-value', ['test-default-domain', null, ['unused'], 'en']];
 
         $translator = new StaticTranslator();
         $translator->setValue('test-custom-domain', 'custom-domain-value', 'custom');
-        $translator->setValue('test-custom-domain', 'custom-domain-value-en', 'custom', 'en');
+        $translator->setValue('test-custom-domain', 'custom-domain-value-de', 'custom', 'de');
 
         yield 'reads from custom domain 1' => [$translator, 'custom-domain-value', ['test-custom-domain', 'custom']];
         yield 'reads from custom domain 2' =>
             [$translator, 'custom-domain-value', ['test-custom-domain', 'custom', ['unused']]];
         yield 'reads from custom domain 3' =>
-            [$translator, 'custom-domain-value-en', ['test-custom-domain', 'custom', ['unused'], 'en']];
+            [$translator, 'custom-domain-value-de', ['test-custom-domain', 'custom', ['unused'], 'de']];
+        yield 'reads from custom domain 4' =>
+            [$translator, 'custom-domain-value', ['test-custom-domain', 'custom', ['unused'], 'en']];
     }
 
     /** @dataProvider translateProvider */

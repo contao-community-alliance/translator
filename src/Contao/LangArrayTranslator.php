@@ -3,7 +3,7 @@
 /**
  * This file is part of contao-community-alliance/translator.
  *
- * (c) 2013-2023 Contao Community Alliance.
+ * (c) 2013-2024 Contao Community Alliance.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  * @author     Tristan Lins <tristan.lins@bit3.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @author     Ingolf Steinhardt <info@e-spin.de>
- * @copyright  2013-2023 Contao Community Alliance.
+ * @copyright  2013-2024 Contao Community Alliance.
  * @license    https://github.com/contao-community-alliance/translator/blob/master/LICENSE LGPL-3.0
  * @filesource
  */
@@ -80,7 +80,7 @@ class LangArrayTranslator extends AbstractTranslator
         }
 
         if (null === $locale) {
-            $locale = 'default';
+            $locale = 'en';
         }
 
         $this->loadDomain($domain, $locale);
@@ -116,7 +116,6 @@ class LangArrayTranslator extends AbstractTranslator
      * Load the language strings for the given domain in the passed locale.
      *
      * @param string $domain The domain to load.
-     *
      * @param string $locale The locale to use.
      *
      * @return void
