@@ -25,13 +25,12 @@
   "support": {
     "email": "info@contao-community-alliance.de",
     "issues": "https://github.com/contao-community-alliance/translator/issues",
-    "irc": "irc://irc.freenode.org/contao.cca",
     "source": "https://github.com/contao-community-alliance/translator"
   },
   "require": {
     "php": "^8.2",
-    "contao-community-alliance/events-contao-bindings": "^5.0@dev",
-    "contao/core-bundle": "^5.3",
+    "contao-community-alliance/events-contao-bindings": "^5.0",
+    "contao/core-bundle": "~5.3.0",
     "symfony/config": "^6.3",
     "symfony/dependency-injection": "^6.3",
     "symfony/event-dispatcher": "^6.3",
