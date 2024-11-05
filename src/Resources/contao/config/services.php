@@ -20,5 +20,8 @@ declare(strict_types=1);
 
 use DependencyInjection\Container\PimpleGate;
 
-/** @var PimpleGate $container */
+/**
+ * @psalm-suppress UndefinedDocblockClass - We do not actively test against legacy Pimple. Use on your own risk.
+ * @var PimpleGate $container
+ */
 $container->provideSymfonyService('translator', 'cca.translator.contao_translator');
