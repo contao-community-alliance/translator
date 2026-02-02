@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator;
 
+use Override;
 use Symfony\Contracts\Translation\TranslatorInterface as SymfonyTranslator;
 
 final class SymfonyTranslatorBridge implements TranslatorInterface
@@ -32,6 +33,7 @@ final class SymfonyTranslatorBridge implements TranslatorInterface
         $this->translator = $translator;
     }
 
+    #[Override]
     public function translate($string, $domain = null, array $parameters = [], $locale = null): string
     {
         if (($string !== $transValue = $this->try($string, $parameters, $domain, $locale))) {
@@ -44,6 +46,7 @@ final class SymfonyTranslatorBridge implements TranslatorInterface
         return $this->try($string, $parameters, $domain, null);
     }
 
+    #[Override]
     public function translatePluralized(
         $string,
         $number,

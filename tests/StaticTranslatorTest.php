@@ -23,8 +23,10 @@ declare(strict_types=1);
 namespace ContaoCommunityAlliance\Translator\Test;
 
 use ContaoCommunityAlliance\Translator\StaticTranslator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/** @covers \ContaoCommunityAlliance\Translator\StaticTranslator */
+#[CoversClass(StaticTranslator::class)]
 class StaticTranslatorTest extends TestCase
 {
     /**
@@ -38,7 +40,7 @@ class StaticTranslatorTest extends TestCase
         self::assertSame($translator, $translator->setValuePluralized('', '', 1, 1));
     }
 
-    public function translateProvider()
+    public static function translateProvider()
     {
         $translator = new StaticTranslator();
 
@@ -72,13 +74,13 @@ class StaticTranslatorTest extends TestCase
             [$translator, 'custom-domain-value', ['test-custom-domain', 'custom', ['unused'], 'en']];
     }
 
-    /** @dataProvider translateProvider */
+    #[DataProvider('translateProvider')]
     public function testTranslate(StaticTranslator $translator, string $expected, array $arguments): void
     {
         self::assertSame($expected, call_user_func_array([$translator, 'translate'], $arguments));
     }
 
-    public function translatePluralizedProvider()
+    public static function translatePluralizedProvider()
     {
         $translator = new StaticTranslator();
 
@@ -101,7 +103,7 @@ class StaticTranslatorTest extends TestCase
         yield 'reads "many apples" for 100' => [$translator, 'many apples', ['apple', 100]];
     }
 
-    /** @dataProvider translatePluralizedProvider */
+    #[DataProvider('translatePluralizedProvider')]
     public function testTranslatePluralized(StaticTranslator $translator, string $expected, array $arguments): void
     {
         self::assertSame($expected, call_user_func_array([$translator, 'translatePluralized'], $arguments));

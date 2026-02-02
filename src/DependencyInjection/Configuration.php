@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator\DependencyInjection;
 
+use Override;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -37,6 +38,7 @@ class Configuration implements ConfigurationInterface
      * @psalm-suppress UndefinedMethod
      * @psalm-suppress MixedMethodCall
      */
+    #[Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('cca_translator');

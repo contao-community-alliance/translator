@@ -24,15 +24,16 @@ namespace ContaoCommunityAlliance\Translator\Test\Contao;
 
 use ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator;
 use ContaoCommunityAlliance\Translator\Test\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @covers \ContaoCommunityAlliance\Translator\Contao\LangArrayTranslator
- */
+#[CoversClass(LangArrayTranslator::class)]
 class LangArrayTranslatorTest extends TestCase
 {
-    public function returnUntranslatedProvider(): iterable
+    public static function returnUntranslatedProvider(): iterable
     {
         yield ['test', ['test']];
         yield ['test', ['test']];
@@ -43,8 +44,8 @@ class LangArrayTranslatorTest extends TestCase
 
     /**
      * Test that the translator always returns the original string when no translation value can be found.
-     * @dataProvider returnUntranslatedProvider
      */
+    #[DataProvider('returnUntranslatedProvider')]
     public function testReturnUntranslated(string $expected, array $arguments): void
     {
         $translator = $this->mockTranslator([]);
@@ -52,7 +53,7 @@ class LangArrayTranslatorTest extends TestCase
         self::assertSame($expected, call_user_func_array([$translator, 'translate'], $arguments));
     }
 
-    public function returnUntranslatedPluralizedProvider(): iterable
+    public static function returnUntranslatedPluralizedProvider(): iterable
     {
         yield ['test', ['test', 1]];
         yield ['test', ['test', 1, 'default']];
@@ -62,8 +63,8 @@ class LangArrayTranslatorTest extends TestCase
 
     /**
      * Test that the translator always returns the original string when no translation value can be found.
-     * @dataProvider returnUntranslatedPluralizedProvider
      */
+    #[DataProvider('returnUntranslatedPluralizedProvider')]
     public function testReturnUntranslatedPluralized(string $expected, array $arguments): void
     {
         $translator = $this->mockTranslator([]);
@@ -71,7 +72,7 @@ class LangArrayTranslatorTest extends TestCase
         self::assertSame($expected, call_user_func_array([$translator, 'translatePluralized'], $arguments));
     }
 
-    public function defaultDomainProvider(): iterable
+    public static function defaultDomainProvider(): iterable
     {
         $translations = ['test-default-domain' => 'default-domain-value'];
         yield ['default-domain-value', $translations, ['test-default-domain']];
@@ -82,8 +83,8 @@ class LangArrayTranslatorTest extends TestCase
 
     /**
      * Test the default domain handling.
-     * @dataProvider defaultDomainProvider
      */
+    #[DataProvider('defaultDomainProvider')]
     public function testDefaultDomain(string $expected, array $translations, array $arguments): void
     {
         $translator = $this->mockTranslator($translations);
@@ -91,7 +92,7 @@ class LangArrayTranslatorTest extends TestCase
         self::assertSame($expected, call_user_func_array([$translator, 'translate'], $arguments));
     }
 
-    public function customDomainProvider(): iterable
+    public static function customDomainProvider(): iterable
     {
         $translations = ['test-custom-domain' => 'custom-domain-value'];
         yield ['custom-domain-value', $translations, ['test-custom-domain', 'custom']];
@@ -102,15 +103,15 @@ class LangArrayTranslatorTest extends TestCase
 
     /**
      * Test the custom domain handling.
-     * @dataProvider customDomainProvider
      */
+    #[DataProvider('customDomainProvider')]
     public function testCustomDomain(string $expected, array $translations, array $arguments): void
     {
         $translator = $this->mockTranslator($translations);
         self::assertSame($expected, call_user_func_array([$translator, 'translate'], $arguments));
     }
 
-    public function pluralizationProvider(): iterable
+    public static function pluralizationProvider(): iterable
     {
         yield ['an apple', ['apple', 1]];
         yield ['a few apples', ['apple', 3]];
@@ -122,8 +123,8 @@ class LangArrayTranslatorTest extends TestCase
 
     /**
      * Test pluralization.
-     * @dataProvider pluralizationProvider
      */
+    #[DataProvider('pluralizationProvider')]
     public function testPluralization(string $expected, array $arguments): void
     {
         $translator = $this->mockTranslator([
@@ -150,7 +151,7 @@ class LangArrayTranslatorTest extends TestCase
      */
     private function mockTranslator(array $langArray): LangArrayTranslator
     {
-        $dispatcher = $this->getMockForAbstractClass(EventDispatcherInterface::class);
+        $dispatcher = $this->createMock(EventDispatcherInterface::class);
         $translator = $this
             ->getMockBuilder(LangArrayTranslator::class)
             ->onlyMethods(['loadDomain'])
