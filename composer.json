@@ -29,7 +29,7 @@
   },
   "require": {
     "php": "^8.4",
-    "contao-community-alliance/events-contao-bindings": "^5.1@dev",
+    "contao-community-alliance/events-contao-bindings": "^5.7@dev",
     "contao/core-bundle": "^5.7",
     "symfony/config": "^6.3 || ^7.4",
     "symfony/dependency-injection": "^6.3 || ^7.4",
