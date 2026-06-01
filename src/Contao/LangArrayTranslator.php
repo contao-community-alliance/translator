@@ -27,6 +27,7 @@ namespace ContaoCommunityAlliance\Translator\Contao;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\System\LoadLanguageFileEvent;
 use ContaoCommunityAlliance\Translator\AbstractTranslator;
+use Override;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -66,6 +67,7 @@ class LangArrayTranslator extends AbstractTranslator
      *
      * @psalm-suppress MixedInferredReturnType
      */
+    #[Override]
     protected function getValue($string, $domain, $locale)
     {
         if (false === \is_string($string)) {

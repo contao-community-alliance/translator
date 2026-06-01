@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator;
 
+use Override;
+
 use function count;
 use function explode;
 use function is_array;
@@ -41,6 +43,7 @@ abstract class AbstractTranslator implements TranslatorInterface
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function translate($string, $domain = null, array $parameters = [], $locale = null)
     {
         $newString = $this->getValue($string, $domain, $locale);
@@ -71,6 +74,7 @@ abstract class AbstractTranslator implements TranslatorInterface
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function translatePluralized($string, $number, $domain = null, array $parameters = [], $locale = null)
     {
         $choices = $this->getValue($string, $domain, $locale);

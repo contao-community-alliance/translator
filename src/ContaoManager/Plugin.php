@@ -29,6 +29,7 @@ use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use ContaoCommunityAlliance\Contao\Bindings\CcaEventsContaoBindingsBundle;
 use ContaoCommunityAlliance\Translator\CcaTranslatorBundle;
+use Override;
 
 /**
  * Plugin for the Contao Manager.
@@ -38,6 +39,7 @@ class Plugin implements BundlePluginInterface
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function getBundles(ParserInterface $parser)
     {
         return [

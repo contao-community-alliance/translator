@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator;
 
+use Override;
+
 /**
  * This translator is a chain of translators.
  *
@@ -142,6 +144,7 @@ class TranslatorChain implements TranslatorInterface
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function translate($string, $domain = null, array $parameters = array(), $locale = null)
     {
         $original = $string;
@@ -160,6 +163,7 @@ class TranslatorChain implements TranslatorInterface
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function translatePluralized($string, $number, $domain = null, array $parameters = array(), $locale = null)
     {
         $original = $string;

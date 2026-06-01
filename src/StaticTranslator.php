@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace ContaoCommunityAlliance\Translator;
 
 use InvalidArgumentException;
+use Override;
 
 use function explode;
 use function is_array;
@@ -229,6 +230,7 @@ class StaticTranslator extends AbstractTranslator
         return $this;
     }
 
+    #[Override]
     protected function getValue($string, $domain, $locale)
     {
         if (null === $domain) {
