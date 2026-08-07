@@ -38,6 +38,8 @@ class Plugin implements BundlePluginInterface
 {
     /**
      * {@inheritdoc}
+     *
+     * @return list<BundleConfig>
      */
     #[Override]
     public function getBundles(ParserInterface $parser)
