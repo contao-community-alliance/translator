@@ -62,7 +62,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-release/2.6.0": "2.6.x-dev"
+      "dev-hotfix/2.6.2": "2.6.x-dev"
     },
     "contao-manager-plugin": "ContaoCommunityAlliance\\Translator\\ContaoManager\\Plugin"
   }
