@@ -21,11 +21,15 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\Kernel\AbstractBundle;
 
 /**
  * This is the bundle for the legacy event dispatcher.
+ *
+ * Extends the DependencyInjection component's AbstractBundle directly rather than
+ * Symfony\Component\HttpKernel\Bundle\Bundle: the latter still works, but implements the
+ * now-deprecated Symfony\Component\HttpKernel\Bundle\BundleInterface.
  */
-class CcaTranslatorBundle extends Bundle
+class CcaTranslatorBundle extends AbstractBundle
 {
 }
