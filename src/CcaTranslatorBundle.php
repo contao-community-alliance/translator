@@ -21,15 +21,18 @@ declare(strict_types=1);
 
 namespace ContaoCommunityAlliance\Translator;
 
-use Symfony\Component\DependencyInjection\Kernel\AbstractBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * This is the bundle for the legacy event dispatcher.
  *
- * Extends the DependencyInjection component's AbstractBundle directly rather than
- * Symfony\Component\HttpKernel\Bundle\Bundle: the latter still works, but implements the
- * now-deprecated Symfony\Component\HttpKernel\Bundle\BundleInterface.
+ * @psalm-suppress DeprecatedInterface Bundle implements the deprecated BundleInterface under
+ *     Symfony 8, but Symfony\Component\DependencyInjection\Kernel\AbstractBundle is not a drop-in
+ *     replacement here: its getContainerExtension() does not do the classic reflection-based
+ *     lookup of a "<Namespace>\DependencyInjection\<Name>Extension" class that
+ *     CcaTranslatorExtension relies on, so swapping the base class silently stops that extension
+ *     (and all its services) from ever loading.
  */
-class CcaTranslatorBundle extends AbstractBundle
+class CcaTranslatorBundle extends Bundle
 {
 }
