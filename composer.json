@@ -19,6 +19,11 @@
       "name": "Stefan Heimes",
       "email": "stefan_heimes@hotmail.com",
       "role": "Developer"
+    },
+    {
+      "name": "Ingolf Steinhardt",
+      "email": "info@e-spin.de",
+      "role": "Developer"
     }
   ],
   "homepage": "https://c-c-a.org/",
@@ -29,18 +34,18 @@
   },
   "require": {
     "php": "^8.4",
-    "contao-community-alliance/events-contao-bindings": "^6.3",
+    "contao-community-alliance/events-contao-bindings": "^6.0@dev",
     "contao/core-bundle": "^6.0",
-    "symfony/config": "^6.3 || ^7.4 || ^8.0",
-    "symfony/dependency-injection": "^6.3 || ^7.4 || ^8.0",
-    "symfony/event-dispatcher": "^6.3 || ^7.4 || ^8.0",
-    "symfony/event-dispatcher-contracts": "^2.0 || ^3.0",
-    "symfony/http-kernel": "^6.3 || ^7.4 || ^8.0",
-    "symfony/translation": "^6.3 || ^7.4 || ^8.0",
-    "symfony/translation-contracts": "^2.3 || ^3.0"
+    "symfony/config": "^7.4 || ^8.0",
+    "symfony/dependency-injection": "^7.4 || ^8.0",
+    "symfony/event-dispatcher": "^7.4 || ^8.0",
+    "symfony/event-dispatcher-contracts": "^3.0",
+    "symfony/http-kernel": "^7.4 || ^8.0",
+    "symfony/translation": "^7.4 || ^8.0",
+    "symfony/translation-contracts": "^3.0"
   },
   "require-dev": {
-    "contao/manager-bundle": "^5.7",
+    "contao/manager-bundle": "^6.0",
     "phpcq/runner-bootstrap": "^1.0@dev"
   },
   "autoload": {
@@ -62,7 +67,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-feature/contao6": "2.7.x-dev"
+      "dev-release/2.7.0": "2.7.x-dev"
     },
     "contao-manager-plugin": "ContaoCommunityAlliance\\Translator\\ContaoManager\\Plugin"
   }
